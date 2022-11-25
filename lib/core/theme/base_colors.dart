@@ -21,13 +21,13 @@ class BaseColors {
     },
   );
 
-  static const int _charcoalPrimaryValue = 0xFF181A1E;
+  static const int _charcoalPrimaryValue = 0xFF0F1112;
   static const MaterialColor charcoal = MaterialColor(
     _charcoalPrimaryValue,
     <int, Color>{
       600: Color(0xFF55565C),
       700: Color(0xFF181A1E),
-      800: Color(0xFF181A1E),
+      800: Color(0xFF151718),
       900: Color(_charcoalPrimaryValue),
     },
   );
