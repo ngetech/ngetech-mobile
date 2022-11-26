@@ -70,8 +70,9 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             width: deviceWidth,
             decoration: BoxDecoration(
-                color: BaseColors.charcoal.shade800,
-                borderRadius: BorderRadius.circular(12)),
+              color: BaseColors.charcoal.shade800,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
