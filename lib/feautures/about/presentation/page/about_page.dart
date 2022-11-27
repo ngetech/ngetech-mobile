@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 
 import '../widget/about_ngetech_card.dart';
+import '../widget/faq_section.dart';
 import '../widget/kudos_developer_card.dart';
 
 class AboutPage extends StatelessWidget {
@@ -27,57 +28,7 @@ class AboutPage extends StatelessWidget {
             child: Column(
               children: [
                 AboutNgeTechCard(deviceWidth: deviceWidth),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Container(
-                    width: deviceWidth,
-                    decoration: BoxDecoration(
-                      color: BaseColors.charcoal.shade800,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            width: double.infinity,
-                            color: BaseColors.blue,
-                            child: const Center(
-                              child: Text(
-                                'FAQ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: BaseColors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Text(
-                          'FAQ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: BaseColors.white,
-                          ),
-                        ),
-                        const Text(
-                          'FAQ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: BaseColors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                FaqSection(deviceWidth: deviceWidth),
                 KudosDeveloperCard(deviceWidth: deviceWidth),
               ],
             ),
