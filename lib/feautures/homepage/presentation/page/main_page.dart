@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  
+
   static const TextStyle optionStyle = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w600,
@@ -22,25 +22,33 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _widgetOptions = const <Widget>[
     HomePage(),
-    Text(
-      'Survey',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Survey',
+        style: optionStyle,
+      ),
     ),
-    Text(
-      'Top 5',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Top 5',
+        style: optionStyle,
+      ),
     ),
-    Text(
-      'Post',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Post',
+        style: optionStyle,
+      ),
     ),
-    Text(
-      'Forum',
-      style: optionStyle,
+    Center(
+      child: Text(
+        'Forum',
+        style: optionStyle,
+      ),
     ),
   ];
 
-  final List<GButton> _tabsButtons = const <GButton>[
+  final List<GButton> _tabsButton = const <GButton>[
     GButton(
       icon: LineIcons.home,
       text: 'Home',
@@ -101,7 +109,7 @@ class _MainPageState extends State<MainPage> {
                 duration: const Duration(milliseconds: 400),
                 tabBackgroundColor: BaseColors.charcoal,
                 color: BaseColors.charcoal.shade600,
-                tabs: _tabsButtons,
+                tabs: _tabsButton,
                 selectedIndex: _selectedIndex,
                 onTabChange: (index) {
                   setState(() {
