@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NgeTechServices {
@@ -29,18 +30,22 @@ class NgeTechServices {
     initialized = true;
   }
 
-  Future<dynamic> login(String url, dynamic data) async {
+  Future<dynamic> login(
+    String url,
+    dynamic data,
+  ) async {
     if (kIsWeb) {
       dynamic c = _client;
       c.withCredentials = true;
     }
+
     http.Response response = await _client.post(
       Uri.parse(url),
       body: data,
       headers: headers,
     );
-    
-    _updateCookie(response);
+
+    await _updateCookie(response);
 
     if (response.statusCode == 200) {
       loggedIn = true;
@@ -54,17 +59,22 @@ class NgeTechServices {
 
   Future<dynamic> logout(String url) async {
     http.Response response = await _client.post(Uri.parse(url));
-
     if (response.statusCode == 200) {
       loggedIn = false;
       jsonData = {};
     } else {
       loggedIn = true;
     }
-
     cookies = {};
-
     return json.decode(response.body);
+  }
+
+  Future persist(String cookies) async {
+    local.setString("cookies", cookies);
+  }
+
+  Map<String, dynamic> getJsonData() {
+    return jsonData;
   }
 
   Future<dynamic> get(String url) async {
@@ -76,15 +86,14 @@ class NgeTechServices {
       Uri.parse(url),
       headers: headers,
     );
-    _updateCookie(response);
+    await _updateCookie(response);
     return json.decode(response.body);
   }
 
-  Map<String, dynamic> getJsonData() {
-    return jsonData;
-  }
-
-  Future<dynamic> post(String url, dynamic data) async {
+  Future<dynamic> post(
+    String url,
+    dynamic data,
+  ) async {
     if (kIsWeb) {
       dynamic c = _client;
       c.withCredentials = true;
@@ -94,7 +103,7 @@ class NgeTechServices {
       body: data,
       headers: headers,
     );
-    _updateCookie(response);
+    await _updateCookie(response);
     return json.decode(response.body);
   }
 
@@ -110,28 +119,21 @@ class NgeTechServices {
       headers: headers,
     );
     headers.remove('Content-Type');
-    _updateCookie(response);
+    await _updateCookie(response);
     return json.decode(response.body);
   }
 
-  Future persist(String cookies) async {
-    local.setString("cookies", cookies);
-  }
-
-  void _updateCookie(http.Response response) async {
+  Future _updateCookie(http.Response response) async {
     await init();
     String? allSetCookie = response.headers['set-cookie'];
-
     if (allSetCookie != null) {
       var setCookies = allSetCookie.split(',');
       for (var setCookie in setCookies) {
         var cookies = setCookie.split(';');
-
         for (var cookie in cookies) {
           _setCookie(cookie);
         }
       }
-
       headers['cookie'] = _generateCookieHeader();
       String cookieObject = (const JsonEncoder()).convert(cookies);
       persist(cookieObject);
@@ -144,9 +146,7 @@ class NgeTechServices {
       if (keyValue.length == 2) {
         var key = keyValue[0].trim();
         var value = keyValue[1];
-
         if (key == 'path' || key == 'expires') return;
-
         cookies[key] = value;
       }
     }
@@ -154,7 +154,6 @@ class NgeTechServices {
 
   String _generateCookieHeader() {
     String cookie = "";
-
     for (var key in cookies.keys) {
       if (cookie.isNotEmpty) cookie += ";";
       String? newCookie = cookies[key];
