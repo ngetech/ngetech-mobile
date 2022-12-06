@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                 backgroundColor: BaseColors.blue,
                               ));
                               Future.delayed(const Duration(seconds: 6000));
-                              Navigator.pop(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const MainPage(),
