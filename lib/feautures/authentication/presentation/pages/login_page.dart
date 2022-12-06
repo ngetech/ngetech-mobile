@@ -29,6 +29,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 28),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: LineIcon(
+                LineIcons.times,
+              ),
+            ),
+          )
+        ],
+        leading: Container(),
         elevation: 0,
       ),
       body: Padding(
@@ -148,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                                     color: BaseColors.white,
                                   ),
                                 ),
-                                backgroundColor: BaseColors.blue,
+                                backgroundColor: BaseColors.warning,
                               ));
                             }
                           }

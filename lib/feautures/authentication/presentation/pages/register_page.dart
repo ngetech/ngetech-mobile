@@ -32,6 +32,20 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 28),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: LineIcon(
+                LineIcons.times,
+              ),
+            ),
+          )
+        ],
+        leading: Container(),
         elevation: 0,
       ),
       body: Padding(
@@ -176,11 +190,11 @@ class _RegisterPageState extends State<RegisterPage> {
                               ));
                               Future.delayed(const Duration(seconds: 4000));
                               Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage(),
-                                  ),
-                                );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ),
+                              );
                             } else {
                               if (!mounted) return;
                               ScaffoldMessenger.of(context)
@@ -191,18 +205,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                     color: BaseColors.white,
                                   ),
                                 ),
-                                backgroundColor: BaseColors.blue,
+                                backgroundColor: BaseColors.warning,
                               ));
                             }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
                               content: Text(
-                                'Insert a valid username and passwors',
+                                'Insert a valid username and password',
                                 style: TextStyle(
                                   color: BaseColors.white,
                                 ),
                               ),
-                              backgroundColor: BaseColors.blue,
+                              backgroundColor: BaseColors.warning,
                             ));
                           }
                         },

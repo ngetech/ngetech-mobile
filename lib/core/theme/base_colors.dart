@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class BaseColors {
   static const Color black = Colors.black;
   static const Color white = Colors.white;
+  static const Color warning = Color(0xFFFF0033);
 
   static const int _bluePrimaryValue = 0xFF3F51B5;
   static const MaterialColor blue = MaterialColor(
