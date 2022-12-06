@@ -1,0 +1,115 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:ngetech/feautures/authentication/presentation/pages/register_page.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  bool isHidden = true;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 28),
+        child: Form(
+          key: _key,
+          child: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Sign   In',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Username',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isHidden = !isHidden;
+                            });
+                          },
+                          child: isHidden
+                              ? LineIcon(LineIcons.lowVision)
+                              : LineIcon(LineIcons.eye),
+                        ),
+                      ),
+                      obscureText: isHidden,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Login'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: RichText(
+                  text: TextSpan(
+                    text: "Don't have an account? ",
+                    children: [
+                      TextSpan(
+                        text: 'Sign Up',
+                        style: const TextStyle(
+                          color: BaseColors.blue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const RegisterPage(),
+                                  ),
+                                )
+                              },
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: BaseColors.charcoal,
+    );
+  }
+}
