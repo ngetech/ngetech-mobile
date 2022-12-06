@@ -145,11 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 backgroundColor: BaseColors.blue,
                               ));
-                              Future.delayed(const Duration(seconds: 6000));
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MainPage(),
+                              Future.delayed(
+                                const Duration(seconds: 4),
+                                () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MainPage(),
+                                  ),
                                 ),
                               );
                             } else {
@@ -167,15 +169,15 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           } else {
                             ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text(
-                                  'Insert a username & password!',
-                                  style: TextStyle(
-                                    color: BaseColors.white,
-                                  ),
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                'Insert a username & password!',
+                                style: TextStyle(
+                                  color: BaseColors.white,
                                 ),
-                                backgroundColor: BaseColors.warning,
-                              ));
+                              ),
+                              backgroundColor: BaseColors.warning,
+                            ));
                           }
                         },
                         child: const Text('Login'),

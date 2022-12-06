@@ -188,11 +188,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 backgroundColor: BaseColors.blue,
                               ));
-                              Future.delayed(const Duration(seconds: 4000));
-                              Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
+                              Future.delayed(
+                                const Duration(seconds: 4),
+                                () => Navigator.pop(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
                                 ),
                               );
                             } else {
