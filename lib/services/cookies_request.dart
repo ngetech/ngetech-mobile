@@ -1,20 +1,20 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CookieRequest {
-  Map<String, String> headers = {};
-  Map<String, String> cookies = {};
-  Map<String, dynamic> jsonData = {};
-  final http.Client _client = http.Client();
+  static Map<String, String> headers = {};
+  static Map<String, String> cookies = {};
+  static Map<String, dynamic> jsonData = {};
+  static final http.Client _client = http.Client();
 
-  late SharedPreferences local;
+  static late SharedPreferences local;
 
-  bool loggedIn = false;
-  bool initialized = false;
+  static bool loggedIn = false;
+  static bool initialized = false;
 
-  Future init() async {
+  static Future init() async {
     if (!initialized) {
       local = await SharedPreferences.getInstance();
       String? savedCookies = local.getString("cookies");
@@ -43,15 +43,14 @@ class CookieRequest {
         await _client.post(Uri.parse(url), body: data, headers: headers);
 
     await _updateCookie(response);
-
-    print(response.statusCode);
+    print('status code: ${response.statusCode}');
+    print('response body: ${response.body}');
     if (response.statusCode == 200) {
       loggedIn = true;
       jsonData = json.decode(response.body);
     } else {
       loggedIn = false;
     }
-    print(cookies);
 
     // Expects and returns JSON request body
     return json.decode(response.body);
@@ -95,8 +94,6 @@ class CookieRequest {
     http.Response response =
         await _client.post(Uri.parse(url), body: data, headers: headers);
     // Remove used additional header
-    print('url: $url');
-    print(response.statusCode);
     headers.remove('Content-Type');
     await _updateCookie(response);
     return json.decode(response.body); // Expects and returns JSON request body
@@ -140,7 +137,7 @@ class CookieRequest {
     }
   }
 
-  String _generateCookieHeader() {
+  static String _generateCookieHeader() {
     String cookie = "";
 
     for (var key in cookies.keys) {

@@ -68,6 +68,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           _username = value;
                         });
                       },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Username can not be empty!';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 12,
@@ -96,6 +102,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         setState(() {
                           _password1 = value;
                         });
+                      },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please insert a valid password!';
+                        }
+                        return null;
                       },
                     ),
                     const SizedBox(
@@ -126,6 +138,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           _password2 = value;
                         });
                       },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please insert a valid password!';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 12,
@@ -146,16 +164,46 @@ class _RegisterPageState extends State<RegisterPage> {
                             );
                             if (response['status']) {
                               if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('data')));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                  'Success to register',
+                                  style: TextStyle(
+                                    color: BaseColors.white,
+                                  ),
+                                ),
+                                backgroundColor: BaseColors.blue,
+                              ));
+                              Future.delayed(const Duration(seconds: 4000));
+                              Navigator.pop(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
+                                );
                             } else {
                               if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(response['message'])));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  response['message'],
+                                  style: const TextStyle(
+                                    color: BaseColors.white,
+                                  ),
+                                ),
+                                backgroundColor: BaseColors.blue,
+                              ));
                             }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Insert a valid username and password')));
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                'Insert a valid username and passwors',
+                                style: TextStyle(
+                                  color: BaseColors.white,
+                                ),
+                              ),
+                              backgroundColor: BaseColors.blue,
+                            ));
                           }
                         },
                         child: const Text('Login'),
@@ -178,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => {
-                                Navigator.push(
+                                Navigator.pop(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const LoginPage(),

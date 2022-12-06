@@ -85,14 +85,6 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            request.loggedIn.toString(),
-                            style: TextStyle(
-                              color: BaseColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
                             'Selamat ${_greets()}!',
                             style: TextStyle(
                               color: BaseColors.charcoal.shade600,

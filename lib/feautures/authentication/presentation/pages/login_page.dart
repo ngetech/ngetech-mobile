@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/authentication/presentation/pages/register_page.dart';
+import 'package:ngetech/feautures/homepage/presentation/page/main_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../services/cookies_request.dart';
@@ -64,6 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                           _username = value;
                         });
                       },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Username can not be empty!';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 12,
@@ -92,6 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                           _password = value;
                         });
                       },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please input a password!';
+                        }
+                        return null;
+                      },
                       obscureText: isHidden,
                     ),
                     const SizedBox(
@@ -102,14 +115,42 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_key.currentState!.validate()) {
-                           print('object');
-                            final response = request.login(
+                            final response = await request.login(
                               EndPoints.login,
-                              {
-                                'username': _username,
-                                'password': _password
-                              },
+                              {'username': _username, 'password': _password},
                             );
+                            if (response['status']) {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  response['message'],
+                                  style: const TextStyle(
+                                    color: BaseColors.white,
+                                  ),
+                                ),
+                                backgroundColor: BaseColors.blue,
+                              ));
+                              Future.delayed(const Duration(seconds: 6000));
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MainPage(),
+                                ),
+                              );
+                            } else {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                  response['message'],
+                                  style: const TextStyle(
+                                    color: BaseColors.white,
+                                  ),
+                                ),
+                                backgroundColor: BaseColors.blue,
+                              ));
+                            }
                           }
                         },
                         child: const Text('Login'),
