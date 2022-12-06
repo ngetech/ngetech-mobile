@@ -1,5 +1,10 @@
+import 'dart:convert' as convert;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ngetech/core/environments/endpoints.dart';
+import 'package:ngetech/feautures/authentication/data/models/user.dart';
+import 'package:ngetech/services/cookies_request.dart';
+import 'package:provider/provider.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/feautures/authentication/presentation/pages/login_page.dart';
@@ -23,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -127,9 +133,29 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_key.currentState!.validate() && (_password1 == _password2)) {
-
+                        onPressed: () async {
+                          if (_key.currentState!.validate() &&
+                              (_password1 == _password2)) {
+                            final User user = User(
+                              username: _username,
+                              password: _password1,
+                            );
+                            final response = await request.postJson(
+                              EndPoints.register,
+                              convert.jsonEncode(user.toJson()),
+                            );
+                            if (response['status']) {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('data')));
+                            } else {
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(response['message'])));
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Insert a valid username and password')));
                           }
                         },
                         child: const Text('Login'),

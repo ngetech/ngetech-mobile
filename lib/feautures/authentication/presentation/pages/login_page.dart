@@ -2,8 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/authentication/presentation/pages/register_page.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../services/cookies_request.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,9 +18,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  String? _username;
+  String? _password;
+
   bool isHidden = true;
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -33,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Sign   In',
+                      'Sign In',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -46,6 +54,16 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: const InputDecoration(
                         labelText: 'Username',
                       ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _username = value;
+                        });
+                      },
+                      onSaved: (String? value) {
+                        setState(() {
+                          _username = value;
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 12,
@@ -64,6 +82,16 @@ class _LoginPageState extends State<LoginPage> {
                               : LineIcon(LineIcons.eye),
                         ),
                       ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      },
+                      onSaved: (String? value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      },
                       obscureText: isHidden,
                     ),
                     const SizedBox(
@@ -72,7 +100,18 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_key.currentState!.validate()) {
+                           print('object');
+                            final response = request.login(
+                              EndPoints.login,
+                              {
+                                'username': _username,
+                                'password': _password
+                              },
+                            );
+                          }
+                        },
                         child: const Text('Login'),
                       ),
                     ),

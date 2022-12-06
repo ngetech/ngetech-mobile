@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:ngetech/feautures/authentication/presentation/pages/login_page.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../services/cookies_request.dart';
 import '../widget/feature_card.dart';
 import '../widget/hope_and_target_card.dart';
 import '../widget/informative_card.dart';
@@ -14,6 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
+    final request = context.watch<CookieRequest>();
 
     String _greets() {
       var hour = DateTime.now().hour;
@@ -81,6 +85,14 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           Text(
+                            request.loggedIn.toString(),
+                            style: TextStyle(
+                              color: BaseColors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
                             'Selamat ${_greets()}!',
                             style: TextStyle(
                               color: BaseColors.charcoal.shade600,
@@ -89,12 +101,22 @@ class HomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: BaseColors.charcoal.shade700,
-                        child: LineIcon(
-                          LineIcons.userLock,
-                          color: BaseColors.blue,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 28,
+                          backgroundColor: BaseColors.charcoal.shade700,
+                          child: LineIcon(
+                            LineIcons.userLock,
+                            color: BaseColors.blue,
+                          ),
                         ),
                       ),
                     ],
