@@ -163,4 +163,8 @@ class CookieRequest {
 
     return json.decode(response.body);
   }
+
+  bool isLoggedIn() {
+    return loggedIn;
+  }
 }

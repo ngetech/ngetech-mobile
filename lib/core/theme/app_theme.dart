@@ -5,6 +5,7 @@ class AppTheme {
   ThemeData darkTheme() => ThemeData(
         brightness: Brightness.dark,
         primarySwatch: BaseColors.blue,
+        splashColor: BaseColors.blue,
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             side: const BorderSide(

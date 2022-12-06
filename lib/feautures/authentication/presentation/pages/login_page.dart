@@ -165,6 +165,17 @@ class _LoginPageState extends State<LoginPage> {
                                 backgroundColor: BaseColors.warning,
                               ));
                             }
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                  'Insert a username & password!',
+                                  style: TextStyle(
+                                    color: BaseColors.white,
+                                  ),
+                                ),
+                                backgroundColor: BaseColors.warning,
+                              ));
                           }
                         },
                         child: const Text('Login'),

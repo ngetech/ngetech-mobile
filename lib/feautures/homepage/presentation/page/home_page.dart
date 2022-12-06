@@ -105,10 +105,15 @@ class HomePage extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 28,
                           backgroundColor: BaseColors.charcoal.shade700,
-                          child: LineIcon(
-                            LineIcons.userLock,
-                            color: BaseColors.blue,
-                          ),
+                          child: request.isLoggedIn()
+                              ? LineIcon(
+                                  LineIcons.user,
+                                  color: BaseColors.blue,
+                                )
+                              : LineIcon(
+                                  LineIcons.userLock,
+                                  color: BaseColors.blue,
+                                ),
                         ),
                       ),
                     ],
