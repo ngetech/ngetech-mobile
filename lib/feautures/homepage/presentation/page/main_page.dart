@@ -6,14 +6,24 @@ import 'package:ngetech/feautures/homepage/presentation/page/home_page.dart';
 import 'package:ngetech/feautures/post_tech/presentation/page/post_tech_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  final int? setPageAtIndex;
+  const MainPage({
+    Key? key,
+    this.setPageAtIndex,
+  }) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    _selectedIndex = widget.setPageAtIndex ?? 0;
+    super.initState();
+  }
 
   static const TextStyle optionStyle = TextStyle(
     fontSize: 30,

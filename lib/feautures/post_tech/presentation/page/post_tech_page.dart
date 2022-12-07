@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/feautures/post_tech/data/data_source/post_tech_remote_data_source.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:ngetech/services/cookies_request.dart';

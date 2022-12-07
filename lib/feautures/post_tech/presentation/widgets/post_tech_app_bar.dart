@@ -13,6 +13,7 @@ class PostTechAppBar extends StatelessWidget {
     return SliverAppBar(
       backgroundColor: BaseColors.charcoal,
       expandedHeight: MediaQuery.of(context).size.height * 0.175,
+      leading: Container(),
       flexibleSpace: FlexibleSpaceBar(
         title: const Text(
           'POST TECH',

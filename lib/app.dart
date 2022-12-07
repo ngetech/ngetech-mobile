@@ -17,6 +17,7 @@ class App extends StatelessWidget {
         return request;
       },
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: _appTheme.darkTheme(),
         home: const MainPage(),
       ),
