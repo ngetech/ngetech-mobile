@@ -46,6 +46,7 @@ class CookieRequest {
 
     await _updateCookie(response);
     print('status code: ${response.statusCode}');
+    print('response header: ${response.headers}');
     print('response body: ${response.body}');
     if (response.statusCode == 200) {
       loggedIn = true;
@@ -64,8 +65,9 @@ class CookieRequest {
     http.Response response = await _client.post(Uri.parse(url));
 
     print('status code: ${response.statusCode}');
+    print('response header: ${response.headers}');
     print('response body: ${response.body}');
-    
+
     if (response.statusCode == 200) {
       loggedIn = false;
       user = null;
