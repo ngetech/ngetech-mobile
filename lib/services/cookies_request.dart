@@ -13,7 +13,7 @@ class CookieRequest {
 
   static bool loggedIn = false;
   static bool initialized = false;
-  static String? username;
+  static String? user;
 
   static Future init() async {
     if (!initialized) {
@@ -23,7 +23,7 @@ class CookieRequest {
         cookies = Map<String, String>.from(json.decode(savedCookies));
         if (cookies['sessionid'] != null) {
           loggedIn = true;
-          username = local.getString('user');
+          user = local.getString('user');
           headers['cookie'] = _generateCookieHeader();
         }
       }
@@ -50,13 +50,34 @@ class CookieRequest {
     if (response.statusCode == 200) {
       loggedIn = true;
       jsonData = json.decode(response.body);
-      username = jsonData['username'];
-      local.setString('user', username!);
+      user = jsonData['username'];
+      local.setString('user', user!);
     } else {
       loggedIn = false;
     }
 
     // Expects and returns JSON request body
+    return json.decode(response.body);
+  }
+
+  Future<dynamic> logout(String url) async {
+    http.Response response = await _client.post(Uri.parse(url));
+
+    print('status code: ${response.statusCode}');
+    print('response body: ${response.body}');
+    
+    if (response.statusCode == 200) {
+      loggedIn = false;
+      user = null;
+      jsonData = {};
+    } else {
+      loggedIn = true;
+    }
+
+    cookies = {};
+    local.remove('user');
+    local.remove('cookies');
+
     return json.decode(response.body);
   }
 
@@ -153,26 +174,11 @@ class CookieRequest {
     return cookie;
   }
 
-  Future<dynamic> logout(String url) async {
-    http.Response response = await _client.post(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      loggedIn = false;
-      jsonData = {};
-    } else {
-      loggedIn = true;
-    }
-
-    cookies = {};
-
-    return json.decode(response.body);
-  }
-
   bool isLoggedIn() {
     return loggedIn;
   }
 
   String? getCurrentUser() {
-    return username;
+    return user;
   }
 }

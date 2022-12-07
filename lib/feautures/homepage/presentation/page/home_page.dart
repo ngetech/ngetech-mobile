@@ -4,6 +4,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/authentication/presentation/pages/login_page.dart';
+import 'package:ngetech/feautures/homepage/presentation/page/user_detail_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../services/cookies_request.dart';
@@ -98,7 +99,7 @@ class HomePage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
+                              builder: (context) => request.isLoggedIn() ? const UserDetailPage() : const LoginPage(),
                             ),
                           );
                         },
