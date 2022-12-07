@@ -76,11 +76,11 @@ class HomePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Halo!',
-                            style: TextStyle(
+                          Text(
+                            'Halo${request.getCurrentUser() != null ? ", ${request.getCurrentUser()!}" : '!'}',
+                            style: const TextStyle(
                               color: BaseColors.white,
-                              fontSize: 28,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -131,7 +131,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(28, 20, 28, 12),
             child: Center(
               child: Text(
-                'Rekomendasi hari ini\nuntuk Mu',
+                'Rekomendasi hari ini',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: BaseColors.white,

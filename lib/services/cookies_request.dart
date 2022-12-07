@@ -13,6 +13,7 @@ class CookieRequest {
 
   static bool loggedIn = false;
   static bool initialized = false;
+  static String? username;
 
   static Future init() async {
     if (!initialized) {
@@ -22,6 +23,7 @@ class CookieRequest {
         cookies = Map<String, String>.from(json.decode(savedCookies));
         if (cookies['sessionid'] != null) {
           loggedIn = true;
+          username = local.getString('user');
           headers['cookie'] = _generateCookieHeader();
         }
       }
@@ -48,6 +50,8 @@ class CookieRequest {
     if (response.statusCode == 200) {
       loggedIn = true;
       jsonData = json.decode(response.body);
+      username = jsonData['username'];
+      local.setString('user', username!);
     } else {
       loggedIn = false;
     }
@@ -166,5 +170,9 @@ class CookieRequest {
 
   bool isLoggedIn() {
     return loggedIn;
+  }
+
+  String? getCurrentUser() {
+    return username;
   }
 }
