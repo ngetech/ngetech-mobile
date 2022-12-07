@@ -4,7 +4,7 @@ class PostTech {
   String? title;
   String? description;
   String? date;
-  List<int>? likes;
+  List<dynamic>? likes;
 
   PostTech({
     this.user,

@@ -6,8 +6,8 @@ class SliverPostTechDelegate extends SliverPersistentHeaderDelegate {
   });
 
   final Widget child;
-  final double _minHeight = 50.0;
-  final double _maxHeight = 50.0;
+  final double _minHeight = 55.0;
+  final double _maxHeight = 55.0;
 
   @override
   double get minExtent => _minHeight;
