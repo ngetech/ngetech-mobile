@@ -3,6 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/home_page.dart';
+import 'package:ngetech/feautures/post_tech/presentation/page/post_tech_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -34,12 +35,7 @@ class _MainPageState extends State<MainPage> {
         style: optionStyle,
       ),
     ),
-    Center(
-      child: Text(
-        'Post',
-        style: optionStyle,
-      ),
-    ),
+    PostTechPage(),
     Center(
       child: Text(
         'Forum',
