@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                             ));
                           }
                         },
-                        child: const Text('Login'),
+                        child: const Text('Sign In'),
                       ),
                     ),
                   ],
