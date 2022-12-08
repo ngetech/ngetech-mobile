@@ -19,11 +19,12 @@ class PostTechPage extends StatefulWidget {
 class _PostTechPageState extends State<PostTechPage> {
   @override
   Widget build(BuildContext context) {
+    final request = Provider.of<CookieRequest>(
+      context,
+      listen: false,
+    );
     PostTechRemoteDataSource dataSource = PostTechRemoteDataSource(
-      request: Provider.of<CookieRequest>(
-        context,
-        listen: false,
-      ),
+      request: request,
     );
     return Scaffold(
       body: SafeArea(
@@ -36,23 +37,54 @@ class _PostTechPageState extends State<PostTechPage> {
                 height: 8,
               ),
             ),
-            FutureBuilder(
-              future: dataSource.fetchPosts(),
-              builder: (context, AsyncSnapshot<List<PostTech>> snapshot) {
-                if (snapshot.data == null) {
-                  return const SliverToBoxAdapter(
-                    child: Text('no data'),
-                  );
-                } else {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: snapshot.data!.length,
-                      (context, index) => PostCard(post: snapshot.data![index]),
+            request.isLoggedIn()
+                ? FutureBuilder(
+                    future: dataSource.fetchPosts(),
+                    builder: (context, AsyncSnapshot<List<PostTech>> snapshot) {
+                      if (snapshot.data == null) {
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Container(
+                            child: Center(
+                              child: Text('Loading...'),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.data!.isEmpty) {
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Container(
+                            child: Center(
+                              child: Text('No data'),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            childCount: snapshot.data!.length,
+                            (context, index) =>
+                                PostCard(post: snapshot.data![index]),
+                          ),
+                        );
+                      }
+                    },
+                  )
+                : SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: BaseColors.charcoal,
+                        borderRadius: BorderRadius.circular(8),
+                        image: const DecorationImage(
+                          image:
+                              AssetImage('assets/images/unauthentication.png'),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  );
-                }
-              },
-            )
+                  )
           ],
         ),
       ),
