@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -57,7 +58,7 @@ class PostCard extends StatelessWidget {
                           height: 2,
                         ),
                         Text(
-                          post.date!,
+                          DateFormat.yMMMMd().format(DateTime.parse(post.date!)),
                           style: const TextStyle(
                             fontSize: 12,
                           ),

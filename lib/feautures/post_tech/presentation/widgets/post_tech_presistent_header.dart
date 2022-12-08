@@ -1,15 +1,37 @@
+import 'dart:convert' as convert;
+
 import 'package:flutter/material.dart';
+import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/main_page.dart';
 import 'package:ngetech/feautures/post_tech/presentation/widgets/sliver_post_tech_delegate.dart';
+import 'package:ngetech/services/cookies_request.dart';
+import 'package:provider/provider.dart';
 
-class PostTechPersistentHeader extends StatelessWidget {
+import '../../data/models/post_tech.dart';
+
+class PostTechPersistentHeader extends StatefulWidget {
   const PostTechPersistentHeader({Key? key}) : super(key: key);
 
   @override
+  State<PostTechPersistentHeader> createState() =>
+      _PostTechPersistentHeaderState();
+}
+
+class _PostTechPersistentHeaderState extends State<PostTechPersistentHeader> {
+  @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    final request = Provider.of<CookieRequest>(
+      context,
+      listen: false,
+    );
     final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+    String? _title;
+    String? _description;
+
     return SliverPersistentHeader(
       delegate: SliverPostTechDelegate(
         child: Container(
@@ -36,19 +58,55 @@ class PostTechPersistentHeader extends StatelessWidget {
                                 key: _key,
                                 child: SingleChildScrollView(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 24, 0, 8),
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 24, 0, 8),
                                         child: Text('Title'),
                                       ),
-                                      TextFormField(),
+                                      TextFormField(
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            _title = value;
+                                          });
+                                        },
+                                        onSaved: (String? value) {
+                                          setState(() {
+                                            _title = value;
+                                          });
+                                        },
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Title can not be empty!';
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                       const Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 12, 0, 8),
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 12, 0, 8),
                                         child: Text('Description'),
                                       ),
                                       TextFormField(
                                         maxLines: 16,
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            _description = value;
+                                          });
+                                        },
+                                        onSaved: (String? value) {
+                                          setState(() {
+                                            _description = value;
+                                          });
+                                        },
+                                        validator: (String? value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Description can not be empty!';
+                                          }
+                                          return null;
+                                        },
                                       ),
                                     ],
                                   ),
@@ -60,16 +118,33 @@ class PostTechPersistentHeader extends StatelessWidget {
                               child: SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .popUntil((route) => route.isFirst);
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MainPage(setPageAtIndex: 3),
-                                      ),
-                                    );
+                                  onPressed: () async {
+                                    if (_key.currentState!.validate()) {
+                                      PostTech post = PostTech(
+                                        title: _title,
+                                        description: _description,
+                                      );
+                                      final response = await request.postJson(
+                                        EndPoints.addPostTech,
+                                        convert.jsonEncode({
+                                          'title': _title,
+                                          'description': _description
+                                        }),
+                                      );
+                                      if (!response['error']) {
+                                        if (!mounted) return;
+                                        Navigator.of(context)
+                                            .popUntil((route) => route.isFirst);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MainPage(
+                                                    setPageAtIndex: 3),
+                                          ),
+                                        );
+                                      }
+                                    }
                                   },
                                   child: const Text('Go Public'),
                                 ),

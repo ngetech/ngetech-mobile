@@ -5,4 +5,5 @@ class EndPoints {
   static const String login = '$baseUrl/flutter-login-user/';
   static const String logout = '$baseUrl/flutter-logout-user/';
   static const String getPostsTech = '$baseUrl/post-tech/post-tech-json/';
+  static const String addPostTech = '$baseUrl/post-tech/add-post-tech/';
 }
