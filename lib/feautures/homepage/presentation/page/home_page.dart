@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:ngetech/feautures/authentication/presentation/pages/login_page.dart';
+import 'package:ngetech/feautures/homepage/presentation/page/user_detail_page.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../services/cookies_request.dart';
 import '../widget/feature_card.dart';
 import '../widget/hope_and_target_card.dart';
 import '../widget/informative_card.dart';
@@ -14,6 +18,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
+    final request = context.watch<CookieRequest>();
 
     String _greets() {
       var hour = DateTime.now().hour;
@@ -72,11 +77,11 @@ class HomePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Halo!',
-                            style: TextStyle(
+                          Text(
+                            'Halo${request.getCurrentUser() != null ? ", ${request.getCurrentUser()!}" : '!'}',
+                            style: const TextStyle(
                               color: BaseColors.white,
-                              fontSize: 28,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -89,12 +94,27 @@ class HomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: BaseColors.charcoal.shade700,
-                        child: LineIcon(
-                          LineIcons.userLock,
-                          color: BaseColors.blue,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => request.isLoggedIn() ? const UserDetailPage() : const LoginPage(),
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 28,
+                          backgroundColor: BaseColors.charcoal.shade700,
+                          child: request.isLoggedIn()
+                              ? LineIcon(
+                                  LineIcons.user,
+                                  color: BaseColors.blue,
+                                )
+                              : LineIcon(
+                                  LineIcons.userLock,
+                                  color: BaseColors.blue,
+                                ),
                         ),
                       ),
                     ],
@@ -112,7 +132,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(28, 20, 28, 12),
             child: Center(
               child: Text(
-                'Rekomendasi hari ini\nuntuk Mu',
+                'Rekomendasi hari ini',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: BaseColors.white,

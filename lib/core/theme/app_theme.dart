@@ -5,6 +5,7 @@ class AppTheme {
   ThemeData darkTheme() => ThemeData(
         brightness: Brightness.dark,
         primarySwatch: BaseColors.blue,
+        splashColor: BaseColors.blue,
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             side: const BorderSide(
@@ -31,6 +32,20 @@ class AppTheme {
             ),
           ),
           disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+              color: BaseColors.blue,
+              width: 1.0,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+              color: BaseColors.blue,
+              width: 1.0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               color: BaseColors.blue,
