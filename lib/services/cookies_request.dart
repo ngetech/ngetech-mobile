@@ -77,6 +77,7 @@ class CookieRequest {
     }
 
     cookies = {};
+    headers = {};
     local.remove('user');
     local.remove('cookies');
 
@@ -121,6 +122,8 @@ class CookieRequest {
     http.Response response =
         await _client.post(Uri.parse(url), body: data, headers: headers);
     // Remove used additional header
+    print('post header: $headers');
+    print('post json status code: ${response.statusCode}');
     headers.remove('Content-Type');
     await _updateCookie(response);
     return json.decode(response.body); // Expects and returns JSON request body

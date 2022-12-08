@@ -223,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ));
                           }
                         },
-                        child: const Text('Login'),
+                        child: const Text('Sign Up'),
                       ),
                     ),
                   ],
