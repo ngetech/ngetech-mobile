@@ -1,4 +1,5 @@
 class PostTech {
+  int? id;
   int? user;
   String? username;
   String? title;
@@ -7,6 +8,7 @@ class PostTech {
   List<dynamic>? likes;
 
   PostTech({
+    this.id,
     this.user,
     this.username,
     this.title,
