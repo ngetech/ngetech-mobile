@@ -28,8 +28,8 @@ class _CommentPostTechState extends State<CommentPostTech> {
     CommentRemoteDataSource dataSource = CommentRemoteDataSource(
       request: request,
     );
-
-    print(widget.post.id);
+    final GlobalKey<FormState> key = GlobalKey<FormState>();
+    String? commentText;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,31 +52,33 @@ class _CommentPostTechState extends State<CommentPostTech> {
                 return Column(
                   children: [
                     Expanded(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: BaseColors.charcoal,
-                            borderRadius: BorderRadius.circular(8),
-                            image: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/yuk_comment.png'),
-                              fit: BoxFit.contain,
+                        child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: BaseColors.charcoal,
+                              borderRadius: BorderRadius.circular(8),
+                              image: const DecorationImage(
+                                image:
+                                    AssetImage('assets/images/yuk_comment.png'),
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
-                        ),
-                        const Text(
-                          'Yuk Comment !',
-                          style: TextStyle(
-                              color: BaseColors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
+                          const Text(
+                            'Yuk Comment !',
+                            style: TextStyle(
+                                color: BaseColors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     )),
                     Container(
                       padding: const EdgeInsets.symmetric(
