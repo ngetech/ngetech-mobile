@@ -15,7 +15,9 @@ class PostTechRemoteDataSource {
       final List<PostTech> result = [];
       final response = await request.get(EndPoints.getPostsTech);
       for (var item in response) {
-        result.add(PostTech.fromJson(item['fields']));
+        PostTech post = PostTech.fromJson(item['fields']);
+        post.id = item['pk'];
+        result.add(post);
       }
       print(result.length);
       return result.toList();
