@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     Center(
       child: Text(
-        'Survey',
+        'Survey A',
         style: optionStyle,
       ),
     ),
