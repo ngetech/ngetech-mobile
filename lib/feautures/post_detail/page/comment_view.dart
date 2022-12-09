@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/post_detail/data/data_source/comment_remote_data_source.dart';
 import 'package:ngetech/feautures/post_detail/data/models/post_comment.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert' as convert;
 
 class CommentPostTech extends StatefulWidget {
   final PostTech post;
@@ -19,8 +21,10 @@ class CommentPostTech extends StatefulWidget {
 
 class _CommentPostTechState extends State<CommentPostTech> {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  String? commentText;
   @override
   Widget build(BuildContext context) {
+    
     final request = Provider.of<CookieRequest>(
       context,
       listen: false,
@@ -28,8 +32,6 @@ class _CommentPostTechState extends State<CommentPostTech> {
     CommentRemoteDataSource dataSource = CommentRemoteDataSource(
       request: request,
     );
-    final GlobalKey<FormState> key = GlobalKey<FormState>();
-    String? commentText;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,8 +67,8 @@ class _CommentPostTechState extends State<CommentPostTech> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 image: const DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/yuk_comment.png'),
+                                  image: AssetImage(
+                                      'assets/images/yuk_comment.png'),
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -159,16 +161,56 @@ class _CommentPostTechState extends State<CommentPostTech> {
                   const SizedBox(
                     width: 12,
                   ),
-                  Expanded(child: TextFormField()),
+                  Expanded(
+                      child: Form(
+                    key: key,
+                    child: TextFormField(
+                      decoration: const InputDecoration(hintText: 'Comment'),
+                      onChanged: (String? value) {
+                        setState(() {
+                          commentText = value;
+                        });
+                      },
+                      onSaved: (String? value) {
+                        setState(() {
+                          commentText = value;
+                        });
+                      },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Comment can not be empty!';
+                        }
+                        return null;
+                      },
+                    ),
+                  )),
                   const SizedBox(
                     width: 12,
                   ),
                   Transform.rotate(
                     angle: 5.5,
-                    child: LineIcon(
-                      LineIcons.paperPlane,
-                      size: 35,
-                      color: BaseColors.blue,
+                    child: GestureDetector(
+                      child: LineIcon(
+                        LineIcons.paperPlane,
+                        size: 35,
+                        color: BaseColors.blue,
+                      ),
+                      onTap: () async {
+                        if (key.currentState!.validate()) {
+                          print(widget.post.id!);
+                          print(commentText);
+                          final response = await request.postJson(
+                            EndPoints.addCommentPostTech,
+                            convert.jsonEncode({
+                              'post_id': widget.post.id!,
+                              'comment': commentText
+                            }),
+                          );
+                          print('===============');
+                          print(response['msg']);
+                          setState(() {});
+                        }
+                      },
                     ),
                   )
                 ],
