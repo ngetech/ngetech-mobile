@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/post_detail/data/data_source/comment_remote_data_source.dart';
 import 'package:ngetech/feautures/post_detail/data/models/post_comment.dart';
@@ -27,6 +25,8 @@ class _CommentPostTechState extends State<CommentPostTech> {
       request: request,
     );
 
+    print(widget.post.id);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: BaseColors.charcoal,
@@ -52,7 +52,9 @@ class _CommentPostTechState extends State<CommentPostTech> {
                     ],
                   );
                 } else {
-                  return ListView.builder(itemBuilder: (context, index) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
                     PostComment postComment = snapshot.data![index];
                     return Card(
                       color: BaseColors.charcoal.shade600,

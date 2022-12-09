@@ -11,15 +11,14 @@ class CommentRemoteDataSource {
 
   Future<List<PostComment>> fetchComments({required int postId}) async {
     try {
-      print(request.isLoggedIn());
       final List<PostComment> result = [];
       final response = await request.get(EndPoints.getCommentPostTech);
+      print('post id: $postId');
       for (var item in response) {
-        if (item['pk'] == postId) {
+        if (item['fields']['post'] == postId) {
           result.add(PostComment.fromJson(item['fields']));
         }
       }
-      print(result.length);
       return result.toList();
     } catch (e) {
       throw Exception('error: $e');
