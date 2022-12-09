@@ -3,6 +3,8 @@ import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:ngetech/feautures/forum/presentation/widgets/discussion_card.dart';
+import 'package:ngetech/feautures/forum/presentation/widgets/forum_app_bar.dart';
+import 'package:ngetech/feautures/forum/presentation/widgets/forum_persistent_header.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_discussion.dart';
 import 'package:ngetech/feautures/forum/data/data_source/forum_discussion_remote_data_source.dart';
 
@@ -31,6 +33,8 @@ class _ForumPageState extends State<ForumPage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            const ForumAppBar(),
+            const ForumPersistentHeader(),
             FutureBuilder(
               future: dataSource.fetchDiscussions(),
               builder:

@@ -6,4 +6,6 @@ class EndPoints {
   static const String getPostsTech = '$baseUrl/post-tech/post-tech-json/';
   static const String addPostTech = '$baseUrl/post-tech/add-post-tech/';
   static const String getForumDiscussion = '$baseUrl/discussion/get/';
+  static const String addForumDiscussion =
+      '$baseUrl/discussion/create-discussion/post/';
 }
