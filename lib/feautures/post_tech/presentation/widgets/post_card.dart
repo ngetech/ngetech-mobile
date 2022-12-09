@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 
 import '../../../../core/theme/base_colors.dart';
 import '../../data/models/post_tech.dart';
+import 'package:ngetech/feautures/post_detail/page/post_tech_detail.dart';
 
 class PostCard extends StatelessWidget {
   final PostTech post;
@@ -18,94 +19,102 @@ class PostCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(28, 0, 28, 12),
       child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: BaseColors.charcoal.shade800,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: BaseColors.charcoal.shade800,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(8),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PostTechDetail(post: post)));
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: BaseColors.charcoal,
-                      child: LineIcon(
-                        LineIcons.user,
-                        size: 28,
-                        color: BaseColors.blue,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(
-                          '@${post.username!}',
-                          style: const TextStyle(
+                        CircleAvatar(
+                          backgroundColor: BaseColors.charcoal,
+                          child: LineIcon(
+                            LineIcons.user,
+                            size: 28,
                             color: BaseColors.blue,
-                            fontSize: 16,
                           ),
                         ),
                         const SizedBox(
-                          height: 2,
+                          width: 8,
                         ),
-                        Text(
-                          DateFormat.yMMMMd().format(DateTime.parse(post.date!)),
-                          style: const TextStyle(
-                            fontSize: 12,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '@${post.username!}',
+                              style: const TextStyle(
+                                color: BaseColors.blue,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              DateFormat.yMMMMd()
+                                  .format(DateTime.parse(post.date!)),
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.favorite,
+                          color: BaseColors.warning,
+                          size: 20,
+                        ),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          '${post.likes!.length}',
+                          style: const TextStyle(
+                            color: BaseColors.white,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.favorite,
-                      color: BaseColors.warning,
-                      size: 20,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    post.title!,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    Text(
-                      '${post.likes!.length}',
-                      style: const TextStyle(
-                        color: BaseColors.white,
-                      ),
-                    ),
-                  ],
-                )
+                  ),
+                ),
+                Text(
+                  post.description!,
+                  style: TextStyle(
+                    color: BaseColors.charcoal.shade600,
+                  ),
+                ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text(
-                post.title!,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Text(
-              post.description!,
-              style: TextStyle(
-                color: BaseColors.charcoal.shade600,
-              ),
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
