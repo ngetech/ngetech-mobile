@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/post_detail/data/data_source/comment_remote_data_source.dart';
 import 'package:ngetech/feautures/post_detail/data/models/post_comment.dart';
@@ -15,6 +18,7 @@ class CommentPostTech extends StatefulWidget {
 }
 
 class _CommentPostTechState extends State<CommentPostTech> {
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final request = Provider.of<CookieRequest>(
@@ -28,53 +32,195 @@ class _CommentPostTechState extends State<CommentPostTech> {
     print(widget.post.id);
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: BaseColors.charcoal,
-          elevation: 0,
-        ),
-        body: Container(
-          decoration: const BoxDecoration(color: BaseColors.charcoal),
-          child: FutureBuilder(
-            future: dataSource.fetchComments(postId: widget.post.id!),
-            builder: (context, AsyncSnapshot<List<PostComment>> snapshot) {
-              if (snapshot.data == null) {
-                return const Text('Loading...');
+      appBar: AppBar(
+        title: const Text('Comments'),
+        centerTitle: true,
+        backgroundColor: BaseColors.charcoal,
+        elevation: 0,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(color: BaseColors.charcoal),
+        child: FutureBuilder(
+          future: dataSource.fetchComments(postId: widget.post.id!),
+          builder: (context, AsyncSnapshot<List<PostComment>> snapshot) {
+            if (snapshot.data == null) {
+              return const Center(
+                child: Text('Loading...'),
+              );
+            } else {
+              if (snapshot.data!.isEmpty) {
+                return Column(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: BaseColors.charcoal,
+                            borderRadius: BorderRadius.circular(8),
+                            image: const DecorationImage(
+                              image:
+                                  AssetImage('assets/images/yuk_comment.png'),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'Yuk Comment !',
+                          style: TextStyle(
+                              color: BaseColors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 12,
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 28,
+                            backgroundColor: BaseColors.charcoal.shade700,
+                            child: request.isLoggedIn()
+                                ? LineIcon(
+                                    LineIcons.user,
+                                    color: BaseColors.blue,
+                                  )
+                                : LineIcon(
+                                    LineIcons.userLock,
+                                    color: BaseColors.blue,
+                                  ),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Expanded(child: TextFormField()),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Transform.rotate(
+                            angle: 5.5,
+                            child: LineIcon(
+                              LineIcons.paperPlane,
+                              size: 35,
+                              color: BaseColors.blue,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
               } else {
-                if (!snapshot.hasData) {
-                  return Column(
-                    children: const [
-                      Text(
-                        "Tidak ada Watchlist :(",
-                        style:
-                            TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              PostComment postComment = snapshot.data![index];
+                              return Card(
+                                color: BaseColors.charcoal.shade700,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor: BaseColors.charcoal,
+                                      child: request.isLoggedIn()
+                                          ? LineIcon(
+                                              LineIcons.user,
+                                              color: BaseColors.blue,
+                                            )
+                                          : LineIcon(
+                                              LineIcons.userLock,
+                                              color: BaseColors.blue,
+                                            ),
+                                    ),
+                                    title: Text.rich(TextSpan(
+                                        text: "@${postComment.username} ",
+                                        style: const TextStyle(
+                                            color: BaseColors.blue,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                        children: <InlineSpan>[
+                                          TextSpan(
+                                              text: postComment.comment,
+                                              style: const TextStyle(
+                                                color: BaseColors.white,
+                                                fontSize: 14,
+                                              ))
+                                        ])),
+                                    subtitle: Text(
+                                      DateFormat.yMMMMd().format(DateTime.parse(
+                                          postComment.created_on!)),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                       ),
-                      SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 12,
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor: BaseColors.charcoal.shade700,
+                              child: request.isLoggedIn()
+                                  ? LineIcon(
+                                      LineIcons.user,
+                                      color: BaseColors.blue,
+                                    )
+                                  : LineIcon(
+                                      LineIcons.userLock,
+                                      color: BaseColors.blue,
+                                    ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Expanded(child: TextFormField()),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Transform.rotate(
+                              angle: 5.5,
+                              child: LineIcon(
+                                LineIcons.paperPlane,
+                                size: 35,
+                                color: BaseColors.blue,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                    PostComment postComment = snapshot.data![index];
-                    return Card(
-                      color: BaseColors.charcoal.shade600,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: ListTile(
-                            title: Text(
-                          postComment.comment!,
-                          style: const TextStyle(
-                              color: BaseColors.white, fontSize: 14),
-                        )),
-                      ),
-                    );
-                  });
-                }
+                  ),
+                );
               }
-            },
-          ),
-        ));
+            }
+          },
+        ),
+      ),
+      backgroundColor: BaseColors.charcoal,
+    );
   }
 }
