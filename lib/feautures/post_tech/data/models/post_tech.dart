@@ -1,4 +1,4 @@
-class PostTech {
+class PostTech implements Comparable<PostTech> {
   int? id;
   int? user;
   String? username;
@@ -35,5 +35,20 @@ class PostTech {
     data['date'] = date;
     data['likes'] = likes;
     return data;
+  }
+
+  @override
+  int compareTo(PostTech other) {
+    if (likes!.length == other.likes!.length) {
+      if (id! < other.id!) {
+        return -1;
+      } else {
+        return 1;
+      }
+    } else if (likes!.length < other.likes!.length) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 }
