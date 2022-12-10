@@ -123,7 +123,7 @@ class _Top5PostPageState extends State<Top5PostPage> {
                       );
                     } else {
                       return ListView.builder(
-                        itemCount: 5,
+                        itemCount: snapshot.data!.length < 5 ? snapshot.data!.length : 5,
                         itemBuilder: (context, index) {
                           snapshot.data!.sort();
                           PostTech post = snapshot.data![index];

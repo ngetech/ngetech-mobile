@@ -6,5 +6,5 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CookieRequest.init();
-  runApp(App());
+  runApp(App()); 
 }
