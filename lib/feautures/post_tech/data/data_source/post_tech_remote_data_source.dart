@@ -11,7 +11,6 @@ class PostTechRemoteDataSource {
 
   Future<List<PostTech>> fetchPosts() async {
     try {
-      print(request.isLoggedIn());
       final List<PostTech> result = [];
       final response = await request.get(EndPoints.getPostsTech);
       for (var item in response) {
@@ -19,7 +18,6 @@ class PostTechRemoteDataSource {
         post.id = item['pk'];
         result.add(post);
       }
-      print(result.length);
       return result.toList();
     } catch (e) {
       throw Exception('error: $e');

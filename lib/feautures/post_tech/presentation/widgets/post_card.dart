@@ -4,8 +4,8 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../../../../core/theme/base_colors.dart';
+import '../../../post_detail/presentation/page/post_tech_detail.dart';
 import '../../data/models/post_tech.dart';
-import 'package:ngetech/feautures/post_detail/page/post_tech_detail.dart';
 
 class PostCard extends StatelessWidget {
   final PostTech post;
