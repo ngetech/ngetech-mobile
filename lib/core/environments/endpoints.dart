@@ -14,4 +14,7 @@ class EndPoints {
       '$baseUrl/post-detail/post-comment-json/';
   static const String addCommentPostTech =
       '$baseUrl/post-detail/add-post-comment/';
+  static const String getPostLikesCount = '$baseUrl/post-tech/get-likes/';
+  static const String addLike = '$baseUrl/post-tech/like-post/';
+  static const String getTop5PostTech = '$baseUrl/top-5-post/top-post-json/';
 }

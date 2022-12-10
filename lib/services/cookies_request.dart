@@ -11,9 +11,11 @@ class CookieRequest {
 
   static late SharedPreferences local;
 
+  static bool? isNewInstall;
   static bool loggedIn = false;
   static bool initialized = false;
   static String? user;
+  static int? userId;
 
   static Future init() async {
     if (!initialized) {
@@ -24,8 +26,14 @@ class CookieRequest {
         if (cookies['sessionid'] != null) {
           loggedIn = true;
           user = local.getString('user');
+          userId = local.getInt('userId');
           headers['cookie'] = _generateCookieHeader();
         }
+      }
+
+      isNewInstall = local.getBool('newInstall');
+      if (isNewInstall == null) {
+        local.setBool('newInstall', false);
       }
     }
     initialized = true;
@@ -52,7 +60,9 @@ class CookieRequest {
       loggedIn = true;
       jsonData = json.decode(response.body);
       user = jsonData['username'];
+      userId = jsonData['user_id'];
       local.setString('user', user!);
+      local.setInt('userId', userId!);
     } else {
       loggedIn = false;
     }
@@ -79,6 +89,7 @@ class CookieRequest {
     cookies = {};
     headers = {};
     local.remove('user');
+    local.remove('userId');
     local.remove('cookies');
 
     return json.decode(response.body);
@@ -122,6 +133,7 @@ class CookieRequest {
     http.Response response =
         await _client.post(Uri.parse(url), body: data, headers: headers);
     // Remove used additional header
+    print('post request to: $url');
     print('post header: $headers');
     print('post json status code: ${response.statusCode}');
     headers.remove('Content-Type');
@@ -177,6 +189,10 @@ class CookieRequest {
     }
 
     return cookie;
+  }
+
+  bool? getIsNewInstallStatus() {
+    return isNewInstall;
   }
 
   bool isLoggedIn() {

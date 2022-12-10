@@ -55,7 +55,9 @@ class _PostTechPersistentHeaderState extends State<PostTechPersistentHeader> {
                         builder: (context) => const LoginPage(),
                       ),
                     ),
-              child: Text(request.isLoggedIn() ? 'Bagikan pengalaman anda' : 'Sign In dulu yuk'),
+              child: Text(request.isLoggedIn()
+                  ? 'Bagikan pengalaman anda'
+                  : 'Sign In dulu yuk'),
             ),
           ),
         ),
