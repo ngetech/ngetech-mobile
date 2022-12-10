@@ -1,3 +1,4 @@
+import 'dart:convert' as convert;
 import "package:flutter/material.dart";
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../services/cookies_request.dart';
 import '../../../authentication/presentation/pages/login_page.dart';
+import '../../data/models/hasil_survey.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -15,6 +17,26 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
+  // TODO
+  var request;
+
+  @override
+  void initState() {
+    showHasil();
+    super.initState();
+  }
+
+  Future showHasil() async {
+    String url =
+        'https://ngetech.up.railway.app/tech-survey/get-survey-for-flutter/';
+    HasilTechSurvey data;
+
+    final response = await request.get(url);
+    data = HasilTechSurvey.fromJson(response);
+    print(data.toJson());
+    return data;
+  }
+
   List<String> questions = [
     "Saya mampu mencari dan mengakses informasi di media digital sesuai kebutuhan.",
     "Saya dapat dengan mudah menyaring informasi dan mampu mendeteksi berita bohong (hoax) di media sosial.",
@@ -106,52 +128,159 @@ class _SurveyPageState extends State<SurveyPage> {
                   ),
                 ),
                 request.isLoggedIn()
-                    ? Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
-                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                        decoration: BoxDecoration(
-                          color: BaseColors.charcoal.shade800,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(8),
-                          ),
-                        ),
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: LineIcon(
-                              LineIcons.lockOpen,
-                              color: BaseColors.blue,
-                              size: 30,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                Title(
-                                  color: BaseColors.white,
-                                  child: const Text(
-                                    "Hasil Hasil Survey",
-                                    style: TextStyle(
-                                        height: 1.8,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: BaseColors.blue),
+                    ? FutureBuilder(
+                        future: showHasil(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.data == null) {
+                            return Container(
+                              width: double.infinity,
+                              margin:
+                                  const EdgeInsets.only(top: 12.0, bottom: 6.0),
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
+                              decoration: BoxDecoration(
+                                color: BaseColors.charcoal.shade800,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              child: Column(children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  child: LineIcon(
+                                    LineIcons.lockOpen,
+                                    color: BaseColors.blue,
+                                    size: 30,
                                   ),
                                 ),
-                                Text(
-                                  "\nDiambil pada",
-                                  style: TextStyle(
-                                      height: 1.6,
-                                      color: BaseColors.blue.shade100,
-                                      fontSize: 15),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    children: [
+                                      Title(
+                                        color: BaseColors.white,
+                                        child: const Text(
+                                          "Hasil Hasil Survey",
+                                          style: TextStyle(
+                                              height: 1.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: BaseColors.blue),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Anda belum pernah melakukan survey.",
+                                        style: TextStyle(
+                                            height: 1.6,
+                                            color: BaseColors.blue.shade100,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                      )
+                              ]),
+                            );
+                          } else if (snapshot.data!.isEmpty) {
+                            return Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(top: 12, bottom: 6),
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
+                              decoration: BoxDecoration(
+                                color: BaseColors.charcoal.shade800,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              child: Column(children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  child: LineIcon(
+                                    LineIcons.lockOpen,
+                                    color: BaseColors.blue,
+                                    size: 30,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    children: [
+                                      Title(
+                                        color: BaseColors.white,
+                                        child: const Text(
+                                          "Hasil Hasil Survey",
+                                          style: TextStyle(
+                                              height: 1.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: BaseColors.blue),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Anda belum pernah melakukan survey.",
+                                        style: TextStyle(
+                                            height: 1.6,
+                                            color: BaseColors.blue.shade100,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                            );
+                          } else {
+                            return Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(top: 12, bottom: 6),
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
+                              decoration: BoxDecoration(
+                                color: BaseColors.charcoal.shade800,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                              child: Column(children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  child: LineIcon(
+                                    LineIcons.lockOpen,
+                                    color: BaseColors.blue,
+                                    size: 30,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    children: [
+                                      Title(
+                                        color: BaseColors.white,
+                                        child: const Text(
+                                          "Hasil Hasil Survey",
+                                          style: TextStyle(
+                                              height: 1.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: BaseColors.blue),
+                                        ),
+                                      ),
+                                      Text(
+                                        "    ",
+                                        style: TextStyle(
+                                            height: 1.6,
+                                            color: BaseColors.blue.shade100,
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                            );
+                          }
+                        })
                     : Container(
                         width: double.infinity,
                         margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
@@ -164,7 +293,7 @@ class _SurveyPageState extends State<SurveyPage> {
                         ),
                         child: Column(children: [
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: LineIcon(
                               LineIcons.lock,
                               color: BaseColors.blue,
@@ -309,6 +438,11 @@ class _SurveyPageState extends State<SurveyPage> {
                             );
                           },
                         );
+                        await request.postJson(
+                            "https://ngetech.up.railway.app/tech-survey/post-survey-for-flutter/",
+                            convert.jsonEncode(<String, String>{
+                              'result': result,
+                            }));
                       },
                       child: const Text('Lihat Hasil'),
                     ),
