@@ -43,7 +43,7 @@ class DiscussionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Text(
                     '${discussion.title}',
                     style: const TextStyle(

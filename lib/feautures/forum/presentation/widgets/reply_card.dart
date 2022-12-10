@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_reply.dart';
+import 'package:ngetech/services/cookies_request.dart';
+import 'package:provider/provider.dart';
 
 class ReplyCard extends StatefulWidget {
   final ForumReply reply;
@@ -17,6 +19,13 @@ class ReplyCard extends StatefulWidget {
 class _ReplyCardState extends State<ReplyCard> {
   @override
   Widget build(BuildContext context) {
+    final CookieRequest request = Provider.of<CookieRequest>(
+      context,
+      listen: false,
+    );
+
+    print(request.getCurrentUser());
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
@@ -29,7 +38,9 @@ class _ReplyCardState extends State<ReplyCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '@${widget.reply.user}',
+              widget.reply.user == request.getCurrentUser()
+                  ? 'You'
+                  : '@${widget.reply.user}',
               style: const TextStyle(
                 color: BaseColors.blue,
                 fontWeight: FontWeight.bold,
