@@ -38,7 +38,7 @@ class _Top5PostPageState extends State<Top5PostPage> {
                 children: [
                   Center(
                     child: LineIcon(
-                      LineIcons.windowRestore,
+                      LineIcons.trophy,
                       color: BaseColors.blue,
                       size: 48,
                     ),

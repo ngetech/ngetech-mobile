@@ -52,138 +52,144 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sign In',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/ngetech_text_logo.png',
+                        scale: 2,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                      ),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _username = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _username = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Username can not be empty!';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isHidden = !isHidden;
-                            });
-                          },
-                          child: isHidden
-                              ? LineIcon(LineIcons.lowVision)
-                              : LineIcon(LineIcons.eye),
+                      const Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _password = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _password = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please input a password!';
-                        }
-                        return null;
-                      },
-                      obscureText: isHidden,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_key.currentState!.validate()) {
-                            final response = await request.login(
-                              EndPoints.login,
-                              {'username': _username, 'password': _password},
-                            );
-                            if (response['status']) {
-                              if (!mounted) return;
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                  response['message'],
-                                  style: const TextStyle(
-                                    color: BaseColors.white,
-                                  ),
-                                ),
-                                backgroundColor: BaseColors.blue,
-                              ));
-                              Future.delayed(
-                                const Duration(seconds: 4),
-                                () => Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MainPage(),
-                                  ),
-                                ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                        ),
+                        onChanged: (String? value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Username can not be empty!';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isHidden = !isHidden;
+                              });
+                            },
+                            child: isHidden
+                                ? LineIcon(LineIcons.lowVision)
+                                : LineIcon(LineIcons.eye),
+                          ),
+                        ),
+                        onChanged: (String? value) {
+                          setState(() {
+                            _password = value;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            _password = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please input a password!';
+                          }
+                          return null;
+                        },
+                        obscureText: isHidden,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_key.currentState!.validate()) {
+                              final response = await request.login(
+                                EndPoints.login,
+                                {'username': _username, 'password': _password},
                               );
+                              if (response['status']) {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                    response['message'],
+                                    style: const TextStyle(
+                                      color: BaseColors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: BaseColors.blue,
+                                ));
+                                Future.delayed(
+                                  const Duration(seconds: 4),
+                                  () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MainPage(),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                    response['message'],
+                                    style: const TextStyle(
+                                      color: BaseColors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: BaseColors.warning,
+                                ));
+                              }
                             } else {
-                              if (!mounted) return;
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
+                                  .showSnackBar(const SnackBar(
                                 content: Text(
-                                  response['message'],
-                                  style: const TextStyle(
+                                  'Insert a username & password!',
+                                  style: TextStyle(
                                     color: BaseColors.white,
                                   ),
                                 ),
                                 backgroundColor: BaseColors.warning,
                               ));
                             }
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                'Insert a username & password!',
-                                style: TextStyle(
-                                  color: BaseColors.white,
-                                ),
-                              ),
-                              backgroundColor: BaseColors.warning,
-                            ));
-                          }
-                        },
-                        child: const Text('Sign In'),
+                          },
+                          child: const Text('Sign In'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(

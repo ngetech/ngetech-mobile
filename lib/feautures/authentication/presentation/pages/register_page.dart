@@ -55,178 +55,183 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/ngetech_text_logo.png',
+                        scale: 2,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                      ),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _username = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _username = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Username can not be empty!';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Insert Password',
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isHidden1 = !isHidden1;
-                            });
-                          },
-                          child: isHidden1
-                              ? LineIcon(LineIcons.lowVision)
-                              : LineIcon(LineIcons.eye),
+                      const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      obscureText: isHidden1,
-                      onChanged: (String? value) {
-                        setState(() {
-                          _password1 = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _password1 = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please insert a valid password!';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isHidden2 = !isHidden2;
-                            });
-                          },
-                          child: isHidden2
-                              ? LineIcon(LineIcons.lowVision)
-                              : LineIcon(LineIcons.eye),
-                        ),
+                      const SizedBox(
+                        height: 12,
                       ),
-                      obscureText: isHidden2,
-                      onChanged: (String? value) {
-                        setState(() {
-                          _password2 = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _password2 = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please insert a valid password!';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_key.currentState!.validate() &&
-                              (_password1 == _password2)) {
-                            final User user = User(
-                              username: _username,
-                              password: _password1,
-                            );
-                            final response = await request.postJson(
-                              EndPoints.register,
-                              convert.jsonEncode(user.toJson()),
-                            );
-                            if (response['status']) {
-                              if (!mounted) return;
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                        ),
+                        onChanged: (String? value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            _username = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Username can not be empty!';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Insert Password',
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isHidden1 = !isHidden1;
+                              });
+                            },
+                            child: isHidden1
+                                ? LineIcon(LineIcons.lowVision)
+                                : LineIcon(LineIcons.eye),
+                          ),
+                        ),
+                        obscureText: isHidden1,
+                        onChanged: (String? value) {
+                          setState(() {
+                            _password1 = value;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            _password1 = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please insert a valid password!';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirm Password',
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isHidden2 = !isHidden2;
+                              });
+                            },
+                            child: isHidden2
+                                ? LineIcon(LineIcons.lowVision)
+                                : LineIcon(LineIcons.eye),
+                          ),
+                        ),
+                        obscureText: isHidden2,
+                        onChanged: (String? value) {
+                          setState(() {
+                            _password2 = value;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            _password2 = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please insert a valid password!';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_key.currentState!.validate() &&
+                                (_password1 == _password2)) {
+                              final User user = User(
+                                username: _username,
+                                password: _password1,
+                              );
+                              final response = await request.postJson(
+                                EndPoints.register,
+                                convert.jsonEncode(user.toJson()),
+                              );
+                              if (response['status']) {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                    'Success to register',
+                                    style: TextStyle(
+                                      color: BaseColors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: BaseColors.blue,
+                                ));
+                                Future.delayed(
+                                  const Duration(seconds: 4),
+                                  () => Navigator.pop(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginPage(),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                    response['message'],
+                                    style: const TextStyle(
+                                      color: BaseColors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: BaseColors.warning,
+                                ));
+                              }
+                            } else {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                 content: Text(
-                                  'Success to register',
+                                  'Insert a valid username and password',
                                   style: TextStyle(
-                                    color: BaseColors.white,
-                                  ),
-                                ),
-                                backgroundColor: BaseColors.blue,
-                              ));
-                              Future.delayed(
-                                const Duration(seconds: 4),
-                                () => Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage(),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              if (!mounted) return;
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                  response['message'],
-                                  style: const TextStyle(
                                     color: BaseColors.white,
                                   ),
                                 ),
                                 backgroundColor: BaseColors.warning,
                               ));
                             }
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                'Insert a valid username and password',
-                                style: TextStyle(
-                                  color: BaseColors.white,
-                                ),
-                              ),
-                              backgroundColor: BaseColors.warning,
-                            ));
-                          }
-                        },
-                        child: const Text('Sign Up'),
+                          },
+                          child: const Text('Sign Up'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(
