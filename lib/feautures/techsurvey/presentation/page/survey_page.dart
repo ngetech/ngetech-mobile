@@ -2,6 +2,10 @@ import "package:flutter/material.dart";
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../services/cookies_request.dart';
+import '../../../authentication/presentation/pages/login_page.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -62,6 +66,11 @@ class _SurveyPageState extends State<SurveyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = Provider.of<CookieRequest>(
+      context,
+      listen: false,
+    );
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: BaseColors.charcoal,
@@ -96,42 +105,111 @@ class _SurveyPageState extends State<SurveyPage> {
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                  decoration: BoxDecoration(
-                    color: BaseColors.charcoal.shade800,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
-                  child: Column(children: [
-                    Title(
-                      color: BaseColors.white,
-                      child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Hasil Hasil Survey",
-                            style: TextStyle(
-                                height: 1.8,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: BaseColors.blue),
-                          )),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "\nDiambil pada",
-                        style: TextStyle(
-                            height: 1.6,
-                            color: BaseColors.blue.shade100,
-                            fontSize: 15),
+                request.isLoggedIn()
+                    ? Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
+                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
+                        decoration: BoxDecoration(
+                          color: BaseColors.charcoal.shade800,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: LineIcon(
+                              LineIcons.lockOpen,
+                              color: BaseColors.blue,
+                              size: 30,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                Title(
+                                  color: BaseColors.white,
+                                  child: const Text(
+                                    "Hasil Hasil Survey",
+                                    style: TextStyle(
+                                        height: 1.8,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: BaseColors.blue),
+                                  ),
+                                ),
+                                Text(
+                                  "\nDiambil pada",
+                                  style: TextStyle(
+                                      height: 1.6,
+                                      color: BaseColors.blue.shade100,
+                                      fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
+                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
+                        decoration: BoxDecoration(
+                          color: BaseColors.charcoal.shade800,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: LineIcon(
+                              LineIcons.lock,
+                              color: BaseColors.blue,
+                              size: 30,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                const Text(
+                                  "Riwayat terkunci.",
+                                  style: TextStyle(
+                                      height: 1.6,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: BaseColors.blue),
+                                ),
+                                Text(
+                                  "Login untuk melihat riwayat hasil survey!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      height: 2,
+                                      fontSize: 15,
+                                      color: BaseColors.blue.shade100),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginPage(),
+                                    ),
+                                  );
+                                },
+                                child: const Text("Login")),
+                          )
+                        ]),
                       ),
-                    ),
-                  ]),
-                ),
+                // View Questions
                 for (int i = 0; i < questions.length; i++)
                   Container(
                     width: double.infinity,
@@ -220,7 +298,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                   child: ElevatedButton(
                                     child: const Text(
                                       "Tutup",
-                                      style: TextStyle(color: BaseColors.black),
+                                      style: TextStyle(color: BaseColors.white),
                                     ),
                                     onPressed: () {
                                       Navigator.of(context).pop();
