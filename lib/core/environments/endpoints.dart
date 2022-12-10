@@ -8,4 +8,8 @@ class EndPoints {
   static const String getForumDiscussion = '$baseUrl/discussion/get/';
   static const String addForumDiscussion =
       '$baseUrl/discussion/create-discussion/post/';
+  static const String getCommentPostTech =
+      '$baseUrl/post-detail/post-comment-json/';
+  static const String addCommentPostTech =
+      '$baseUrl/post-detail/add-post-comment/';
 }
