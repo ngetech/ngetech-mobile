@@ -1,16 +1,16 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ngetech/services/cookies.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'cookies.dart';
+
 class CookieRequest {
+  static final http.Client _client = http.Client();
+  static late SharedPreferences local;
   static Map<String, String> headers = {};
   static Map<String, Cookie> cookies = {};
   static Map<String, dynamic> jsonData = {};
-  static final http.Client _client = http.Client();
-
-  static late SharedPreferences local;
 
   static bool? isNewInstall;
   static bool loggedIn = false;
@@ -42,8 +42,11 @@ class CookieRequest {
       c.withCredentials = true;
     }
 
-    http.Response response =
-        await _client.post(Uri.parse(url), body: data, headers: headers);
+    http.Response response = await _client.post(
+      Uri.parse(url),
+      body: data,
+      headers: headers,
+    );
 
     await _updateCookie(response);
     print('status code: ${response.statusCode}');
@@ -70,8 +73,10 @@ class CookieRequest {
       c.withCredentials = true;
     }
 
-    http.Response response =
-        await _client.post(Uri.parse(url), headers: headers);
+    http.Response response = await _client.post(
+      Uri.parse(url),
+      headers: headers,
+    );
 
     print('status code: ${response.statusCode}');
     print('response header: ${response.headers}');
@@ -103,8 +108,9 @@ class CookieRequest {
     Map<String, Cookie> convCookies = {};
 
     try {
-      var localCookies =
-          Map<String, Map<String, dynamic>>.from(json.decode(savedCookies));
+      var localCookies = Map<String, Map<String, dynamic>>.from(
+        json.decode(savedCookies),
+      );
       for (String keyName in localCookies.keys) {
         convCookies[keyName] = Cookie.fromJson(localCookies[keyName]!);
       }
@@ -129,8 +135,10 @@ class CookieRequest {
       c.withCredentials = true;
     }
 
-    http.Response response =
-        await _client.get(Uri.parse(url), headers: headers);
+    http.Response response = await _client.get(
+      Uri.parse(url),
+      headers: headers,
+    );
     await _updateCookie(response);
 
     return json.decode(response.body);
@@ -142,8 +150,11 @@ class CookieRequest {
       c.withCredentials = true;
     }
 
-    http.Response response =
-        await _client.post(Uri.parse(url), body: data, headers: headers);
+    http.Response response = await _client.post(
+      Uri.parse(url),
+      body: data,
+      headers: headers,
+    );
     await _updateCookie(response);
 
     return json.decode(response.body);
@@ -157,8 +168,11 @@ class CookieRequest {
 
     // Add additional header
     headers['Content-Type'] = 'application/json; charset=UTF-8';
-    http.Response response =
-        await _client.post(Uri.parse(url), body: data, headers: headers);
+    http.Response response = await _client.post(
+      Uri.parse(url),
+      body: data,
+      headers: headers,
+    );
 
     // Remove used additional header
     headers.remove('Content-Type');
@@ -227,7 +241,11 @@ class CookieRequest {
       }
       break;
     }
-    cookies[cookieName] = Cookie(cookieValue, cookieValue, cookieExpire);
+    cookies[cookieName] = Cookie(
+      cookieValue,
+      cookieValue,
+      cookieExpire,
+    );
   }
 
   static String _generateCookieHeader() {
