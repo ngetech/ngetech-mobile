@@ -39,11 +39,13 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: request.isLoggedIn()
-          ? Form(
+      child: Builder(
+        builder: ((context) {
+          if (request.isLoggedIn()) {
+            return Form(
               key: _key,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -112,14 +114,29 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_key.currentState!.validate()) {
-                              final response = await request.postJson(
-                                EndPoints.addForumReply(widget.discussion.id!),
-                                convert.jsonEncode(
-                                  {
-                                    'content': _content,
-                                  },
-                                ),
-                              );
+                              dynamic response;
+                              if (widget.replyingTo == null) {
+                                response = await request.postJson(
+                                  EndPoints.addForumReply(
+                                      widget.discussion.id!),
+                                  convert.jsonEncode(
+                                    {
+                                      'content': _content,
+                                    },
+                                  ),
+                                );
+                              } else {
+                                response = await request.postJson(
+                                  EndPoints.addNestedReply(
+                                      widget.replyingTo!.replyParentId!),
+                                  convert.jsonEncode(
+                                    {
+                                      'content': _content,
+                                      'user': widget.replyingTo!.user,
+                                    },
+                                  ),
+                                );
+                              }
                               if (!response['error']) {
                                 if (!mounted) return;
                                 Navigator.pushReplacement(
@@ -140,8 +157,9 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
                   ],
                 ),
               ),
-            )
-          : Padding(
+            );
+          } else {
+            return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -154,7 +172,10 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
                   ),
                 ],
               ),
-            ),
+            );
+          }
+        }),
+      ),
     );
   }
 }

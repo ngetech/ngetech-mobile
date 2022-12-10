@@ -65,14 +65,31 @@ class _ReplyCardState extends State<ReplyCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.reply.user == request.getCurrentUser()
-                      ? 'You'
-                      : '@${widget.reply.user}',
-                  style: const TextStyle(
-                    color: BaseColors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      widget.reply.user == request.getCurrentUser()
+                          ? 'You'
+                          : '@${widget.reply.user}',
+                      style: const TextStyle(
+                        color: BaseColors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (widget.reply.replyingTo != null &&
+                        widget.reply.replyingTo != '') ...[
+                      const Text(' replying to '),
+                      Text(
+                        widget.reply.replyingTo == request.getCurrentUser()
+                            ? 'You'
+                            : '@${widget.reply.replyingTo}',
+                        style: const TextStyle(
+                          color: BaseColors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4, bottom: 8),
@@ -136,6 +153,7 @@ class _ReplyCardState extends State<ReplyCard> {
                               child: ReplyCard(
                                 reply: i,
                                 onTapReply: widget.onTapReply,
+                                shouldFetchNested: false,
                               ),
                             ),
                           RepliesDivider(
