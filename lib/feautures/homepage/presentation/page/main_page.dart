@@ -4,6 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/home_page.dart';
 import 'package:ngetech/feautures/post_tech/presentation/page/post_tech_page.dart';
+import 'package:ngetech/feautures/forum/presentation/pages/forum_page.dart';
 
 import '../../../top_5_post/data/presentation/page/top_5_post_view.dart';
 
@@ -43,12 +44,7 @@ class _MainPageState extends State<MainPage> {
     ),
     Top5PostPage(),
     PostTechPage(),
-    Center(
-      child: Text(
-        'Forum',
-        style: optionStyle,
-      ),
-    ),
+    ForumPage(),
   ];
 
   final List<GButton> _tabsButton = const <GButton>[
