@@ -2,15 +2,15 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
-import 'package:ngetech/feautures/forum/data/data_source/forum_reply_remote_data_source.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_discussion.dart';
+import 'package:ngetech/feautures/forum/data/models/forum_reply.dart';
 import 'package:ngetech/feautures/forum/presentation/pages/discussion_page.dart';
 import 'package:provider/provider.dart';
 import 'package:ngetech/services/cookies_request.dart';
 
 class BottomNavbarForm extends StatefulWidget {
   final ForumDiscussion discussion;
-  final String? replyingTo;
+  final ForumReply? replyingTo;
   final Function() cancelReplyingTo;
 
   const BottomNavbarForm({
@@ -39,107 +39,122 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: Form(
-        key: _key,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.replyingTo != null && widget.replyingTo != '') ...[
-                Row(
+      child: request.isLoggedIn()
+          ? Form(
+              key: _key,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Replying to ',
-                      style: TextStyle(
-                        color: BaseColors.charcoal.shade600,
+                    if (widget.replyingTo != null) ...[
+                      Row(
+                        children: [
+                          Text(
+                            'Replying to ',
+                            style: TextStyle(
+                              color: BaseColors.charcoal.shade600,
+                            ),
+                          ),
+                          Text(
+                            '@${widget.replyingTo!.user}',
+                            style: const TextStyle(
+                              color: BaseColors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            splashColor: Colors.transparent,
+                            // highlightColor: Colors.transparent,
+                            splashRadius: 12,
+                            color: BaseColors.charcoal.shade600,
+                            // alignment: AlignmentDirectional.centerEnd,
+                            onPressed: () {
+                              widget.cancelReplyingTo();
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Text(
-                      '@${widget.replyingTo}',
-                      style: const TextStyle(
-                        color: BaseColors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Expanded(child: Container()),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      splashColor: Colors.transparent,
-                      // highlightColor: Colors.transparent,
-                      splashRadius: 12,
-                      color: BaseColors.charcoal.shade600,
-                      // alignment: AlignmentDirectional.centerEnd,
-                      onPressed: () {
-                        widget.cancelReplyingTo();
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                      ),
+                      const SizedBox(height: 12),
+                    ],
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: 'Reply',
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _content = value;
+                              });
+                            },
+                            onSaved: (String? value) {
+                              setState(() {
+                                _content = value;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Reply content can not be empty!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_key.currentState!.validate()) {
+                              final response = await request.postJson(
+                                EndPoints.addForumReply(widget.discussion.id!),
+                                convert.jsonEncode(
+                                  {
+                                    'content': _content,
+                                  },
+                                ),
+                              );
+                              if (!response['error']) {
+                                if (!mounted) return;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DiscussionPage(
+                                      discussion: widget.discussion,
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          child: const Text('Reply'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-              ],
-              Row(
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Reply',
-                      ),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _content = value;
-                        });
-                      },
-                      onSaved: (String? value) {
-                        setState(() {
-                          _content = value;
-                        });
-                      },
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Reply content can not be empty!';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                  const Text('Join the discussion!'),
+                  const SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (_key.currentState!.validate()) {
-                        final response = await request.postJson(
-                          EndPoints.addForumReply(widget.discussion.id!),
-                          convert.jsonEncode(
-                            {
-                              'content': _content,
-                            },
-                          ),
-                        );
-                        if (!response['error']) {
-                          if (!mounted) return;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DiscussionPage(
-                                discussion: widget.discussion,
-                              ),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    child: const Text('Reply'),
+                    onPressed: (() {}),
+                    child: const Text('Login'),
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
