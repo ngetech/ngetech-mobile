@@ -4,6 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/home_page.dart';
 import 'package:ngetech/feautures/post_tech/presentation/page/post_tech_page.dart';
+import 'package:ngetech/feautures/techsurvey/presentation/page/survey_page.dart';
 
 class MainPage extends StatefulWidget {
   final int? setPageAtIndex;
@@ -33,12 +34,7 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _widgetOptions = const <Widget>[
     HomePage(),
-    Center(
-      child: Text(
-        'Survey A',
-        style: optionStyle,
-      ),
-    ),
+    SurveyPage(),
     Center(
       child: Text(
         'Top 5',
