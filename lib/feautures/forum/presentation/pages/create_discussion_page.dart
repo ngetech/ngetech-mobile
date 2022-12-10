@@ -113,15 +113,17 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
                         );
                       }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                          'Insert a title & content!',
-                          style: TextStyle(
-                            color: BaseColors.white,
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Insert a title & content!',
+                            style: TextStyle(
+                              color: BaseColors.white,
+                            ),
                           ),
+                          backgroundColor: BaseColors.warning,
                         ),
-                        backgroundColor: BaseColors.warning,
-                      ));
+                      );
                     }
                   },
                   child: const Text('Create'),

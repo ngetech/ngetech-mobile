@@ -24,8 +24,6 @@ class _ReplyCardState extends State<ReplyCard> {
       listen: false,
     );
 
-    print(request.getCurrentUser());
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
