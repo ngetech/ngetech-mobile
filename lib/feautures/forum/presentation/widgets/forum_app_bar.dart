@@ -1,48 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 
-class ForumAppBar extends StatelessWidget {
+class ForumAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+
   const ForumAppBar({
     Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
+    return AppBar(
       backgroundColor: BaseColors.charcoal,
-      expandedHeight: MediaQuery.of(context).size.height * 0.175,
-      leading: Container(),
-      floating: false,
-      pinned: true,
-      elevation: 0,
-      flexibleSpace: FlexibleSpaceBar(
-        title: const Text(
-          'DISCUSSION FORUM',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: BaseColors.white,
-          ),
-        ),
-        centerTitle: true,
-        background: Container(
-          color: BaseColors.charcoal,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LineIcon(
-                LineIcons.comment,
-                color: BaseColors.blue,
-                size: 48,
-              ),
-              const SizedBox(
-                height: 40,
-              )
-            ],
-          ),
-        ),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: (() {
+          Navigator.pop(context);
+        }),
       ),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      ),
+      centerTitle: true,
     );
   }
 }

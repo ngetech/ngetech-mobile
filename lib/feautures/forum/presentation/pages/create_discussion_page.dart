@@ -2,7 +2,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
-import 'package:ngetech/feautures/forum/data/models/forum_discussion.dart';
+import 'package:ngetech/feautures/forum/presentation/widgets/forum_app_bar.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/main_page.dart';
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:provider/provider.dart';
@@ -28,20 +28,7 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
 
     return Scaffold(
       backgroundColor: BaseColors.charcoal,
-      appBar: AppBar(
-        backgroundColor: BaseColors.charcoal,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: (() {
-            Navigator.pop(context);
-          }),
-        ),
-        title: const Text(
-          'Create Discussion',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const ForumAppBar(title: "Create Discussion"),
       body: SafeArea(
         child: Form(
           key: _key,
