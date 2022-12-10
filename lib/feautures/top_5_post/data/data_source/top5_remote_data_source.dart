@@ -11,14 +11,14 @@ class Top5RemoteDataSource {
 
   Future<List<PostTech>> fetchTop5Post() async {
     try {
-      final List<PostTech> result = [];
-      final response = await request.get(EndPoints.getTop5PostTech);
+      List<PostTech> result = [];
+      final response = await request.get(EndPoints.getPostsTech);
       for (var item in response) {
         PostTech post = PostTech.fromJson(item['fields']);
         post.id = item['pk'];
         result.add(post);
       }
-      return result.toList();
+      return result;
     } catch (e) {
       throw Exception('error: $e');
     }
