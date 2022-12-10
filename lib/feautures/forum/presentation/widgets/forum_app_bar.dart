@@ -18,9 +18,9 @@ class ForumAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: BaseColors.charcoal,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: (() {
+        onPressed: () {
           Navigator.pop(context);
-        }),
+        },
       ),
       title: Text(
         title,
