@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:ngetech/feautures/forum/presentation/widgets/bottom_navbar_form.dart';
 import 'package:provider/provider.dart';
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:ngetech/feautures/forum/presentation/widgets/forum_app_bar.dart';
@@ -23,9 +24,6 @@ class DiscussionPage extends StatefulWidget {
 }
 
 class _DiscussionPageState extends State<DiscussionPage> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  String? _content;
-
   @override
   Widget build(BuildContext context) {
     final CookieRequest request = Provider.of<CookieRequest>(
@@ -37,16 +35,10 @@ class _DiscussionPageState extends State<DiscussionPage> {
       request: request,
     );
 
-    print(widget.discussion);
-
     return Scaffold(
       appBar: ForumAppBar(title: widget.discussion.title!),
       backgroundColor: BaseColors.charcoal,
-      bottomNavigationBar: bottomNavBarForm(
-        context,
-        request,
-        widget.discussion,
-      ),
+      bottomNavigationBar: BottomNavbarForm(discussion: widget.discussion),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -134,78 +126,6 @@ class _DiscussionPageState extends State<DiscussionPage> {
               ],
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  bottomNavBarForm(
-    BuildContext context,
-    CookieRequest request,
-    ForumDiscussion discussion,
-  ) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Form(
-        key: _key,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Reply',
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _content = value;
-                    });
-                  },
-                  onSaved: (String? value) {
-                    setState(() {
-                      _content = value;
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Reply content can not be empty!';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(width: 12),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_key.currentState!.validate()) {
-                    final response = await request.postJson(
-                      EndPoints.addForumReply(discussion.id!),
-                      convert.jsonEncode(
-                        {
-                          'content': _content,
-                        },
-                      ),
-                    );
-                    if (!response['error']) {
-                      if (!mounted) return;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DiscussionPage(
-                            discussion: discussion,
-                          ),
-                        ),
-                      );
-                    }
-                  }
-                },
-                child: const Text('Reply'),
-              ),
-            ],
-          ),
         ),
       ),
     );

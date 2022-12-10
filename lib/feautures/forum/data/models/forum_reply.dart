@@ -5,6 +5,7 @@ class ForumReply {
   String? date;
   String? replyingTo;
   ForumReply? parentReply;
+  List<ForumReply>? replies;
 
   ForumReply({
     this.id,
