@@ -27,9 +27,57 @@ class _DiscussionPageState extends State<DiscussionPage> {
       backgroundColor: BaseColors.charcoal,
       body: SafeArea(
         child: CustomScrollView(
-          slivers: [],
+          slivers: [
+            contentCard(widget.discussion),
+          ],
         ),
       ),
     );
   }
+}
+
+contentCard(ForumDiscussion discussion) {
+  return SliverToBoxAdapter(
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+      child: Container(
+        color: BaseColors.charcoal.shade800,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${discussion.content}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Text(
+                  'Started by ',
+                  style: TextStyle(
+                    color: BaseColors.charcoal.shade600,
+                  ),
+                ),
+                Text(
+                  '@${discussion.user}',
+                  style: const TextStyle(
+                    color: BaseColors.blue,
+                  ),
+                ),
+                Text(
+                  ' on ${discussion.date}',
+                  style: TextStyle(
+                    color: BaseColors.charcoal.shade600,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }
