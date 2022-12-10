@@ -22,9 +22,9 @@ class DiscussionPage extends StatefulWidget {
 }
 
 class _DiscussionPageState extends State<DiscussionPage> {
-  String? _replyingTo;
+  ForumReply? _replyingTo;
 
-  setReplyingTo(String? value) {
+  setReplyingTo(ForumReply? value) {
     setState(() {
       _replyingTo = value;
     });
@@ -32,7 +32,7 @@ class _DiscussionPageState extends State<DiscussionPage> {
 
   cancelReplyingTo() {
     setState(() {
-      _replyingTo = "";
+      _replyingTo = null;
     });
   }
 

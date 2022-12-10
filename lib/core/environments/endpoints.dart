@@ -10,6 +10,9 @@ class EndPoints {
       '$baseUrl/discussion/create-discussion/post/';
   static String getForumReply(int id) => '$baseUrl/discussion/$id/replies/';
   static String addForumReply(int id) => '$baseUrl/discussion/$id/replies/add/';
+  static String getNestedReply(int id) => '$baseUrl/discussion/replies/$id/';
+  static String addNestedReply(int id) =>
+      '$baseUrl/discussion/replies/$id/add/';
   static const String getCommentPostTech =
       '$baseUrl/post-detail/post-comment-json/';
   static const String addCommentPostTech =

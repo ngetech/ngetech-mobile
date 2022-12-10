@@ -23,4 +23,19 @@ class ForumReplyRemoteDataSource {
       throw Exception('error: $e');
     }
   }
+
+  Future<List<ForumReply>> fetchNestedReplies(int id) async {
+    try {
+      final List<ForumReply> result = [];
+      final response = await request.get(EndPoints.getNestedReply(id));
+      for (var i in response["replies"]) {
+        ForumReply reply = ForumReply.fromJson(i);
+        reply.id = i['pk'];
+        result.add(reply);
+      }
+      return result;
+    } catch (e) {
+      throw Exception('error: $e');
+    }
+  }
 }

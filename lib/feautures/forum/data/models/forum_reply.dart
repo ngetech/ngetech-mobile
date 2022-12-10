@@ -4,7 +4,7 @@ class ForumReply {
   String? user;
   String? date;
   String? replyingTo;
-  ForumReply? parentReply;
+  int? replyParentId;
   List<ForumReply>? replies;
 
   ForumReply({
@@ -13,6 +13,7 @@ class ForumReply {
     this.user,
     this.date,
     this.replyingTo,
+    this.replyParentId,
   });
 
   ForumReply.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class ForumReply {
     user = json['user'];
     date = json['date'];
     replyingTo = json['replyingTo'];
+    replyParentId = json['replyParentPk'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,12 +30,13 @@ class ForumReply {
       'user': user,
       'date': date,
       'replyingTo': replyingTo,
+      'replyParentPk': replyParentId,
     };
     return data;
   }
 
   @override
   String toString() {
-    return "{$id, $content, $user, $date, $replyingTo}";
+    return "{$id, $content, $user, $date, $replyingTo, $replyParentId}";
   }
 }
