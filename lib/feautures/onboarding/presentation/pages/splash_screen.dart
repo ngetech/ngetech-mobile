@@ -9,7 +9,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late final CookieRequest request;
-  
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -25,9 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => request.getIsNewInstallStatus() == false
-                ? const MainPage()
-                : const OnBoardingPage()),
+          builder: (context) => request.getIsNewInstallStatus() == false
+              ? const MainPage()
+              : const OnBoardingPage(),
+        ),
       ),
     );
     super.initState();
