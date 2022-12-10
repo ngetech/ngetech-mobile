@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ngetech/feautures/onboarding/presentation/pages/_pages.dart';
 import 'package:provider/provider.dart';
 import 'package:ngetech/core/theme/app_theme.dart';
 
@@ -19,7 +20,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: _appTheme.darkTheme(),
-        home: const MainPage(),
+        home: const SplashScreen(),
       ),
     );
   }

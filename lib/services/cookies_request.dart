@@ -11,6 +11,7 @@ class CookieRequest {
 
   static late SharedPreferences local;
 
+  static bool? isNewInstall;
   static bool loggedIn = false;
   static bool initialized = false;
   static String? user;
@@ -28,6 +29,11 @@ class CookieRequest {
           userId = local.getInt('userId');
           headers['cookie'] = _generateCookieHeader();
         }
+      }
+
+      isNewInstall = local.getBool('newInstall');
+      if (isNewInstall == null) {
+        local.setBool('newInstall', false);
       }
     }
     initialized = true;
@@ -183,6 +189,10 @@ class CookieRequest {
     }
 
     return cookie;
+  }
+
+  bool? getIsNewInstallStatus() {
+    return isNewInstall;
   }
 
   bool isLoggedIn() {
