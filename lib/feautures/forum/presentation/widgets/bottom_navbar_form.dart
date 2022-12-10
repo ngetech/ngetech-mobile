@@ -1,6 +1,7 @@
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
+import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/forum/data/data_source/forum_reply_remote_data_source.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_discussion.dart';
 import 'package:ngetech/feautures/forum/presentation/pages/discussion_page.dart';
@@ -9,10 +10,14 @@ import 'package:ngetech/services/cookies_request.dart';
 
 class BottomNavbarForm extends StatefulWidget {
   final ForumDiscussion discussion;
+  final String? replyingTo;
+  final Function() cancelReplyingTo;
 
   const BottomNavbarForm({
     Key? key,
     required this.discussion,
+    required this.replyingTo,
+    required this.cancelReplyingTo,
   }) : super(key: key);
 
   @override
@@ -37,58 +42,99 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
       child: Form(
         key: _key,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          child: Row(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Reply',
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      _content = value;
-                    });
-                  },
-                  onSaved: (String? value) {
-                    setState(() {
-                      _content = value;
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Reply content can not be empty!';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(width: 12),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_key.currentState!.validate()) {
-                    final response = await request.postJson(
-                      EndPoints.addForumReply(widget.discussion.id!),
-                      convert.jsonEncode(
-                        {
-                          'content': _content,
-                        },
+              if (widget.replyingTo != null && widget.replyingTo != '') ...[
+                Row(
+                  children: [
+                    Text(
+                      'Replying to ',
+                      style: TextStyle(
+                        color: BaseColors.charcoal.shade600,
                       ),
-                    );
-                    if (!response['error']) {
-                      if (!mounted) return;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DiscussionPage(
-                            discussion: widget.discussion,
+                    ),
+                    Text(
+                      '@${widget.replyingTo}',
+                      style: const TextStyle(
+                        color: BaseColors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      splashColor: Colors.transparent,
+                      // highlightColor: Colors.transparent,
+                      splashRadius: 12,
+                      color: BaseColors.charcoal.shade600,
+                      // alignment: AlignmentDirectional.centerEnd,
+                      onPressed: () {
+                        widget.cancelReplyingTo();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+              ],
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Reply',
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _content = value;
+                        });
+                      },
+                      onSaved: (String? value) {
+                        setState(() {
+                          _content = value;
+                        });
+                      },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Reply content can not be empty!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        final response = await request.postJson(
+                          EndPoints.addForumReply(widget.discussion.id!),
+                          convert.jsonEncode(
+                            {
+                              'content': _content,
+                            },
                           ),
-                        ),
-                      );
-                    }
-                  }
-                },
-                child: const Text('Reply'),
+                        );
+                        if (!response['error']) {
+                          if (!mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DiscussionPage(
+                                discussion: widget.discussion,
+                              ),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    child: const Text('Reply'),
+                  ),
+                ],
               ),
             ],
           ),

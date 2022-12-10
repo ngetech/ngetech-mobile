@@ -6,10 +6,12 @@ import 'package:provider/provider.dart';
 
 class ReplyCard extends StatefulWidget {
   final ForumReply reply;
+  final Function(String?) onTapReply;
 
   const ReplyCard({
     Key? key,
     required this.reply,
+    required this.onTapReply,
   }) : super(key: key);
 
   @override
@@ -48,11 +50,29 @@ class _ReplyCardState extends State<ReplyCard> {
               padding: const EdgeInsets.only(top: 4, bottom: 8),
               child: Text('${widget.reply.content}'),
             ),
-            Text(
-              'On ${widget.reply.date}',
-              style: TextStyle(
-                color: BaseColors.charcoal.shade600,
-              ),
+            Row(
+              children: [
+                Text(
+                  'On ${widget.reply.date}',
+                  style: TextStyle(
+                    color: BaseColors.charcoal.shade600,
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+                InkWell(
+                  onTap: () {
+                    widget.onTapReply(widget.reply.user);
+                  },
+                  child: const Text(
+                    'Reply',
+                    style: TextStyle(
+                      color: BaseColors.blue,
+                    ),
+                  ),
+                )
+              ],
             ),
           ],
         ),

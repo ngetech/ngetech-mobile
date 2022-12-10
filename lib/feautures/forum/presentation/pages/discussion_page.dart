@@ -1,6 +1,4 @@
-import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
-import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/forum/presentation/widgets/bottom_navbar_form.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +22,20 @@ class DiscussionPage extends StatefulWidget {
 }
 
 class _DiscussionPageState extends State<DiscussionPage> {
+  String? _replyingTo;
+
+  setReplyingTo(String? value) {
+    setState(() {
+      _replyingTo = value;
+    });
+  }
+
+  cancelReplyingTo() {
+    setState(() {
+      _replyingTo = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final CookieRequest request = Provider.of<CookieRequest>(
@@ -38,10 +50,14 @@ class _DiscussionPageState extends State<DiscussionPage> {
     return Scaffold(
       appBar: ForumAppBar(title: widget.discussion.title!),
       backgroundColor: BaseColors.charcoal,
-      bottomNavigationBar: BottomNavbarForm(discussion: widget.discussion),
+      bottomNavigationBar: BottomNavbarForm(
+        discussion: widget.discussion,
+        replyingTo: _replyingTo,
+        cancelReplyingTo: cancelReplyingTo,
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
           child: CustomScrollView(
             slivers: [
               contentCard(widget.discussion),
@@ -70,8 +86,10 @@ class _DiscussionPageState extends State<DiscussionPage> {
                     return SliverList(
                       delegate: SliverChildBuilderDelegate(
                         childCount: snapshot.data!.length,
-                        (context, index) =>
-                            ReplyCard(reply: snapshot.data![index]),
+                        (context, index) => ReplyCard(
+                          reply: snapshot.data![index],
+                          onTapReply: setReplyingTo,
+                        ),
                       ),
                     );
                   }
