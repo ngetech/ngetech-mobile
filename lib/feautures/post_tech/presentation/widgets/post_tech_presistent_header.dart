@@ -9,8 +9,6 @@ import 'package:ngetech/feautures/post_tech/presentation/widgets/sliver_post_tec
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/models/post_tech.dart';
-
 class PostTechPersistentHeader extends StatefulWidget {
   const PostTechPersistentHeader({Key? key}) : super(key: key);
 
@@ -55,7 +53,9 @@ class _PostTechPersistentHeaderState extends State<PostTechPersistentHeader> {
                         builder: (context) => const LoginPage(),
                       ),
                     ),
-              child: Text(request.isLoggedIn() ? 'Bagikan pengalaman anda' : 'Sign In dulu yuk'),
+              child: Text(request.isLoggedIn()
+                  ? 'Bagikan pengalaman anda'
+                  : 'Sign In dulu yuk'),
             ),
           ),
         ),
@@ -149,10 +149,6 @@ class _PostTechPersistentHeaderState extends State<PostTechPersistentHeader> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (key.currentState!.validate()) {
-                            PostTech post = PostTech(
-                              title: title,
-                              description: description,
-                            );
                             final response = await request.postJson(
                               EndPoints.addPostTech,
                               convert.jsonEncode(
