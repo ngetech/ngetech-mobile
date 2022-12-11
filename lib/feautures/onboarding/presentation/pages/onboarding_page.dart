@@ -40,6 +40,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = Provider.of<CookieRequest>(
+      context,
+      listen: false,
+    );
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -89,6 +93,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             ),
                           ),
                           onTap: () {
+                            request.setUserIsNotNewInstallAnymore();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

@@ -29,9 +29,6 @@ class CookieRequest {
         headers['cookie'] = _generateCookieHeader();
       }
       isNewInstall = local.getBool('newInstall');
-      if (isNewInstall == null) {
-        local.setBool('newInstall', false);
-      }
     }
     initialized = true;
   }
@@ -97,6 +94,10 @@ class CookieRequest {
     local.remove('cookies');
 
     return json.decode(response.body);
+  }
+
+  Future<void> setUserIsNotNewInstallAnymore() async {
+    local.setBool('newInstall', false);
   }
 
   static Map<String, Cookie> _loadSharedPrefs() {
