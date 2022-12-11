@@ -17,16 +17,8 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
-  // TODO
-  var request;
-
-  @override
-  void initState() {
-    showHasil();
-    super.initState();
-  }
-
-  Future showHasil() async {
+  Future<HasilTechSurvey> showHasil() async {
+    final request = Provider.of<CookieRequest>(context);
     String url =
         'https://ngetech.up.railway.app/tech-survey/get-survey-for-flutter/';
     HasilTechSurvey data;
@@ -88,10 +80,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
   @override
   Widget build(BuildContext context) {
-    final request = Provider.of<CookieRequest>(
-      context,
-      listen: false,
-    );
+    final request = Provider.of<CookieRequest>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -115,14 +104,12 @@ class _SurveyPageState extends State<SurveyPage> {
                           size: 40,
                         ),
                       ),
-                      const Positioned(
-                        child: Text(
-                          "TECH SURVEY",
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: BaseColors.white),
-                        ),
+                      const Text(
+                        "TECH SURVEY",
+                        style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: BaseColors.white),
                       )
                     ],
                   ),
@@ -130,7 +117,8 @@ class _SurveyPageState extends State<SurveyPage> {
                 request.isLoggedIn()
                     ? FutureBuilder(
                         future: showHasil(),
-                        builder: (context, AsyncSnapshot snapshot) {
+                        builder:
+                            (context, AsyncSnapshot<HasilTechSurvey> snapshot) {
                           if (snapshot.data == null) {
                             return Container(
                               width: double.infinity,
@@ -161,7 +149,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                       Title(
                                         color: BaseColors.white,
                                         child: const Text(
-                                          "Hasil Hasil Survey",
+                                          "Hasil Survey Terakhir",
                                           style: TextStyle(
                                               height: 1.8,
                                               fontWeight: FontWeight.bold,
@@ -170,7 +158,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                         ),
                                       ),
                                       Text(
-                                        "Anda belum pernah melakukan survey.",
+                                        "Loading...",
                                         style: TextStyle(
                                             height: 1.6,
                                             color: BaseColors.blue.shade100,
@@ -181,7 +169,8 @@ class _SurveyPageState extends State<SurveyPage> {
                                 ),
                               ]),
                             );
-                          } else if (snapshot.data!.isEmpty) {
+                            /* TODO: Kalau belum pernah survey
+                          } else if (snapshot.data!.isNull) {
                             return Container(
                               width: double.infinity,
                               margin: const EdgeInsets.only(top: 12, bottom: 6),
@@ -210,7 +199,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                       Title(
                                         color: BaseColors.white,
                                         child: const Text(
-                                          "Hasil Hasil Survey",
+                                          "Hasil Survey Terakhir",
                                           style: TextStyle(
                                               height: 1.8,
                                               fontWeight: FontWeight.bold,
@@ -229,7 +218,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                   ),
                                 ),
                               ]),
-                            );
+                            );*/
                           } else {
                             return Container(
                               width: double.infinity,
@@ -259,7 +248,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                       Title(
                                         color: BaseColors.white,
                                         child: const Text(
-                                          "Hasil Hasil Survey",
+                                          "Hasil Survey Terakhir",
                                           style: TextStyle(
                                               height: 1.8,
                                               fontWeight: FontWeight.bold,
