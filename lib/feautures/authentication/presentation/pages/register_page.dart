@@ -235,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: RichText(
                   text: TextSpan(
                     text: "Already have an account? ",

@@ -43,21 +43,17 @@ class _PostTechPageState extends State<PostTechPage> {
                     future: dataSource.fetchPosts(),
                     builder: (context, AsyncSnapshot<List<PostTech>> snapshot) {
                       if (snapshot.data == null) {
-                        return SliverFillRemaining(
+                        return const SliverFillRemaining(
                           hasScrollBody: false,
-                          child: Container(
-                            child: Center(
-                              child: Text('Loading...'),
-                            ),
+                          child: Center(
+                            child: Text('Loading...'),
                           ),
                         );
                       } else if (snapshot.data!.isEmpty) {
-                        return SliverFillRemaining(
+                        return const SliverFillRemaining(
                           hasScrollBody: false,
-                          child: Container(
-                            child: Center(
-                              child: Text('No data'),
-                            ),
+                          child: Center(
+                            child: Text('No data'),
                           ),
                         );
                       } else {

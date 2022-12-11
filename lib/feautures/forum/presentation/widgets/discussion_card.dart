@@ -16,7 +16,7 @@ class DiscussionCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 6,
-        horizontal: 20,
+        horizontal: 28,
       ),
       child: Ink(
         decoration: BoxDecoration(
