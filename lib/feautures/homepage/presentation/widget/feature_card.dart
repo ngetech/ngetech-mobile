@@ -68,17 +68,6 @@ class FeatureCard extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 4),
-            child: Text(
-              'Jelajahi lebih jauh...',
-              style: TextStyle(
-                color: BaseColors.blue,
-                fontSize: 16,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
         ],
       ),
     );

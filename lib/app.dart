@@ -3,7 +3,6 @@ import 'package:ngetech/feautures/onboarding/presentation/pages/_pages.dart';
 import 'package:provider/provider.dart';
 import 'package:ngetech/core/theme/app_theme.dart';
 
-import 'feautures/homepage/presentation/page/main_page.dart';
 import 'services/cookies_request.dart';
 
 class App extends StatelessWidget {

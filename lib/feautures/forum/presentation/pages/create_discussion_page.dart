@@ -87,46 +87,49 @@ class _CreateDiscussionPageState extends State<CreateDiscussionPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_key.currentState!.validate()) {
-                      final response = await request.postJson(
-                        EndPoints.addForumDiscussion,
-                        convert.jsonEncode(
-                          {
-                            'title': _title,
-                            'content': _content,
-                          },
-                        ),
-                      );
-                      if (!response['error']) {
-                        if (!mounted) return;
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MainPage(
-                              setPageAtIndex: 4,
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_key.currentState!.validate()) {
+                        final response = await request.postJson(
+                          EndPoints.addForumDiscussion,
+                          convert.jsonEncode(
+                            {
+                              'title': _title,
+                              'content': _content,
+                            },
+                          ),
+                        );
+                        if (!response['error']) {
+                          if (!mounted) return;
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainPage(
+                                setPageAtIndex: 4,
+                              ),
                             ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Insert a title & content!',
+                              style: TextStyle(
+                                color: BaseColors.white,
+                              ),
+                            ),
+                            backgroundColor: BaseColors.warning,
                           ),
                         );
                       }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Insert a title & content!',
-                            style: TextStyle(
-                              color: BaseColors.white,
-                            ),
-                          ),
-                          backgroundColor: BaseColors.warning,
-                        ),
-                      );
-                    }
-                  },
-                  child: const Text('Create'),
+                    },
+                    child: const Text('Create'),
+                  ),
                 ),
               ],
             ),

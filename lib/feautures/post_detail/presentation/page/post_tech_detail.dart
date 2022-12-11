@@ -6,6 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/main_page.dart';
+import 'package:ngetech/feautures/post_tech/data/data_source/post_tech_remote_data_source.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:provider/provider.dart';
 import '../../../../services/cookies_request.dart';
@@ -14,7 +15,12 @@ import 'comment_view.dart';
 
 class PostTechDetail extends StatefulWidget {
   final PostTech post;
-  const PostTechDetail({super.key, required this.post});
+  final int backToMainPageWithIndex;
+  const PostTechDetail({
+    super.key,
+    required this.post,
+    required this.backToMainPageWithIndex,
+  });
 
   @override
   State<PostTechDetail> createState() => _PostTechDetailState();
@@ -28,7 +34,7 @@ class _PostTechDetailState extends State<PostTechDetail> {
       context,
       listen: false,
     );
-    CommentRemoteDataSource dataSource = CommentRemoteDataSource(
+    PostTechRemoteDataSource dataSource = PostTechRemoteDataSource(
       request: request,
     );
     return Scaffold(
@@ -39,11 +45,18 @@ class _PostTechDetailState extends State<PostTechDetail> {
             padding: const EdgeInsets.only(right: 28),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
+                print('back index');
+                print(widget.backToMainPageWithIndex);
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MainPage(setPageAtIndex: 3),
+                    builder: (context) => MainPage(
+                      setPageAtIndex: widget.backToMainPageWithIndex,
+                    ),
                   ),
+                  (route) {
+                    return false;
+                  },
                 );
               },
               child: LineIcon(
@@ -174,8 +187,7 @@ class _PostTechDetailState extends State<PostTechDetail> {
                                       ),
                                       GestureDetector(
                                         onTap: () async {
-                                          final response =
-                                              await request.postJson(
+                                          await request.postJson(
                                             '${EndPoints.addLike}${widget.post.id}/',
                                             jsonEncode({}),
                                           );
