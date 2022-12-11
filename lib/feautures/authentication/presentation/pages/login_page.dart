@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 child: RichText(
                   text: TextSpan(
                     text: "Don't have an account? ",
