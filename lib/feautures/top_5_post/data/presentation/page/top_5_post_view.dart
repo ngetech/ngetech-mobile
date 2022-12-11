@@ -172,7 +172,7 @@ class _Top5PostPageState extends State<Top5PostPage> {
                                         MaterialPageRoute(
                                           builder: (context) => PostTechDetail(
                                             post: post,
-                                            backToMainPageWithIndex: 2,
+                                            backToMainPageWithIndex: 1,
                                           ),
                                         ),
                                       );

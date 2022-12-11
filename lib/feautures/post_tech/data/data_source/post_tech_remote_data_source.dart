@@ -23,4 +23,12 @@ class PostTechRemoteDataSource {
       throw Exception('error: $e');
     }
   }
+
+  Future<Map<String, dynamic>> getLikesCount({required int postId}) async {
+    final response = await request.get(
+      '${EndPoints.getPostLikesCount}$postId/',
+    );
+    print(response['likes_count']);
+    return response;
+  }
 }

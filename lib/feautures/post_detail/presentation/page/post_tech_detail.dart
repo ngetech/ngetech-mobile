@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icon.dart';
@@ -7,9 +6,9 @@ import 'package:line_icons/line_icons.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/homepage/presentation/page/main_page.dart';
+import 'package:ngetech/feautures/post_tech/data/data_source/post_tech_remote_data_source.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../services/cookies_request.dart';
 import '../../data/data_source/comment_remote_data_source.dart';
 import 'comment_view.dart';
@@ -35,7 +34,7 @@ class _PostTechDetailState extends State<PostTechDetail> {
       context,
       listen: false,
     );
-    CommentRemoteDataSource dataSource = CommentRemoteDataSource(
+    PostTechRemoteDataSource dataSource = PostTechRemoteDataSource(
       request: request,
     );
     return Scaffold(
@@ -46,13 +45,18 @@ class _PostTechDetailState extends State<PostTechDetail> {
             padding: const EdgeInsets.only(right: 28),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
+                print('back index');
+                print(widget.backToMainPageWithIndex);
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => MainPage(
                       setPageAtIndex: widget.backToMainPageWithIndex,
                     ),
                   ),
+                  (route) {
+                    return false;
+                  },
                 );
               },
               child: LineIcon(
