@@ -18,21 +18,25 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(28, 0, 28, 12),
-      child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: BaseColors.charcoal.shade800,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(8),
-            ),
+      child: Ink(
+        decoration: BoxDecoration(
+          color: BaseColors.charcoal.shade800,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
           ),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PostTechDetail(post: post)));
-            },
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostTechDetail(post: post),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,7 +118,9 @@ class PostCard extends StatelessWidget {
                 ),
               ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
