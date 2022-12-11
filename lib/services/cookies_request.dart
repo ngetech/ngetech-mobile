@@ -96,6 +96,7 @@ class CookieRequest {
     http.Response response =
         await _client.get(Uri.parse(url), headers: headers);
     await _updateCookie(response);
+    print("get request in url: $url with status code ${response.statusCode}");
     // Expects and returns JSON request body
     return json.decode(response.body);
   }

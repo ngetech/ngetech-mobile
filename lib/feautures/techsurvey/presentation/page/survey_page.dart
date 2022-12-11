@@ -17,18 +17,6 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
-  Future<HasilTechSurvey> showHasil() async {
-    final request = Provider.of<CookieRequest>(context);
-    String url =
-        'https://ngetech.up.railway.app/tech-survey/get-survey-for-flutter/';
-    HasilTechSurvey data;
-
-    final response = await request.get(url);
-    data = HasilTechSurvey.fromJson(response);
-    print(data.toJson());
-    return data;
-  }
-
   List<String> questions = [
     "Saya mampu mencari dan mengakses informasi di media digital sesuai kebutuhan.",
     "Saya dapat dengan mudah menyaring informasi dan mampu mendeteksi berita bohong (hoax) di media sosial.",
@@ -81,6 +69,17 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   Widget build(BuildContext context) {
     final request = Provider.of<CookieRequest>(context);
+
+    Future<HasilTechSurvey> showHasil() async {
+      String url =
+          'https://ngetech.up.railway.app/tech-survey/get-survey-for-flutter/';
+      HasilTechSurvey data;
+
+      final response = await request.get(url);
+      data = HasilTechSurvey.fromJson(response);
+      print(data.toJson());
+      return data;
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -169,56 +168,6 @@ class _SurveyPageState extends State<SurveyPage> {
                                 ),
                               ]),
                             );
-                            /* TODO: Kalau belum pernah survey
-                          } else if (snapshot.data!.isNull) {
-                            return Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.only(top: 12, bottom: 6),
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                              decoration: BoxDecoration(
-                                color: BaseColors.charcoal.shade800,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                              ),
-                              child: Column(children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: LineIcon(
-                                    LineIcons.lockOpen,
-                                    color: BaseColors.blue,
-                                    size: 30,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: [
-                                      Title(
-                                        color: BaseColors.white,
-                                        child: const Text(
-                                          "Hasil Survey Terakhir",
-                                          style: TextStyle(
-                                              height: 1.8,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: BaseColors.blue),
-                                        ),
-                                      ),
-                                      Text(
-                                        "Anda belum pernah melakukan survey.",
-                                        style: TextStyle(
-                                            height: 1.6,
-                                            color: BaseColors.blue.shade100,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            );*/
                           } else {
                             return Container(
                               width: double.infinity,
@@ -257,11 +206,15 @@ class _SurveyPageState extends State<SurveyPage> {
                                         ),
                                       ),
                                       Text(
-                                        "    ",
+                                        snapshot.data!.result != ''
+                                            ? snapshot.data!.result
+                                            : 'Belum ada riwayat',
                                         style: TextStyle(
-                                            height: 1.6,
-                                            color: BaseColors.blue.shade100,
-                                            fontSize: 15),
+                                          fontStyle: FontStyle.italic,
+                                          height: 1.6,
+                                          color: BaseColors.blue.shade100,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -404,15 +357,19 @@ class _SurveyPageState extends State<SurveyPage> {
                               backgroundColor: BaseColors.charcoal.shade800,
                               title: const Text(
                                 "Hasil Tech Survey",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(color: BaseColors.blue),
                               ),
                               content: Text(
                                 result,
-                                style:
-                                    TextStyle(color: BaseColors.blue.shade100),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: BaseColors.blue.shade100,
+                                ),
                               ),
                               actions: <Widget>[
-                                Center(
+                                SizedBox(
+                                  width: double.infinity,
                                   child: ElevatedButton(
                                     child: const Text(
                                       "Tutup",
@@ -420,6 +377,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                     ),
                                     onPressed: () {
                                       Navigator.of(context).pop();
+                                      setState(() {});
                                     },
                                   ),
                                 ),
