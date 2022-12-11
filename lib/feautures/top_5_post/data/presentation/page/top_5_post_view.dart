@@ -58,15 +58,15 @@ class _Top5PostPageState extends State<Top5PostPage> {
                   Text.rich(
                     TextSpan(
                       text:
-                          "Kami menawarkan anda 5 informasi terhangat mengenai teknologi yang sedang ",
+                          "Kami menawarkan anda 5 informasi terhangat mengenai teknologi yang sedang",
                       style: TextStyle(
                         color: BaseColors.charcoal.shade600,
                         fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        fontSize: 14,
                       ),
                       children: <InlineSpan>[
                         TextSpan(
-                          text: "demanding ",
+                          text: "\ndemanding ",
                           style: TextStyle(
                             color: BaseColors.charcoal.shade600,
                             fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@ class _Top5PostPageState extends State<Top5PostPage> {
                           snapshot.data!.sort();
                           PostTech post = snapshot.data![index];
                           return Card(
-                            color: BaseColors.charcoal.shade700,
+                            color: BaseColors.charcoal.shade800,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -158,9 +158,10 @@ class _Top5PostPageState extends State<Top5PostPage> {
                                 leading: Text(
                                   "#${index + 1}",
                                   style: TextStyle(
-                                      color: BaseColors.charcoal.shade600,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                    color: BaseColors.charcoal.shade600,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
                                 ),
                                 trailing: GestureDetector(
                                   child: LineIcon(LineIcons.angleRight),
