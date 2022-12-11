@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import "package:flutter/material.dart";
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:provider/provider.dart';
 
@@ -75,9 +76,8 @@ class _SurveyPageState extends State<SurveyPage> {
           'https://ngetech.up.railway.app/tech-survey/get-survey-for-flutter/';
       HasilTechSurvey data;
 
-      final response = await request.get(url);
+      final response = await request.get(EndPoints.getSurveyResult);
       data = HasilTechSurvey.fromJson(response);
-      print(data.toJson());
       return data;
     }
 
@@ -116,170 +116,19 @@ class _SurveyPageState extends State<SurveyPage> {
                 request.isLoggedIn()
                     ? FutureBuilder(
                         future: showHasil(),
-                        builder:
-                            (context, AsyncSnapshot<HasilTechSurvey> snapshot) {
+                        builder: (
+                          context,
+                          AsyncSnapshot<HasilTechSurvey> snapshot,
+                        ) {
                           if (snapshot.data == null) {
-                            return Container(
-                              width: double.infinity,
-                              margin:
-                                  const EdgeInsets.only(top: 12.0, bottom: 6.0),
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                              decoration: BoxDecoration(
-                                color: BaseColors.charcoal.shade800,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                              ),
-                              child: Column(children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: LineIcon(
-                                    LineIcons.lockOpen,
-                                    color: BaseColors.blue,
-                                    size: 30,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: [
-                                      Title(
-                                        color: BaseColors.white,
-                                        child: const Text(
-                                          "Hasil Survey Terakhir",
-                                          style: TextStyle(
-                                              height: 1.8,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: BaseColors.blue),
-                                        ),
-                                      ),
-                                      Text(
-                                        "Loading...",
-                                        style: TextStyle(
-                                            height: 1.6,
-                                            color: BaseColors.blue.shade100,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            );
+                            return const SurveyCardSnapshotIsWaiting();
                           } else {
-                            return Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.only(top: 12, bottom: 6),
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                              decoration: BoxDecoration(
-                                color: BaseColors.charcoal.shade800,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                              ),
-                              child: Column(children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                                  child: LineIcon(
-                                    LineIcons.lockOpen,
-                                    color: BaseColors.blue,
-                                    size: 30,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: [
-                                      Title(
-                                        color: BaseColors.white,
-                                        child: const Text(
-                                          "Hasil Survey Terakhir",
-                                          style: TextStyle(
-                                              height: 1.8,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: BaseColors.blue),
-                                        ),
-                                      ),
-                                      Text(
-                                        snapshot.data!.result != ''
-                                            ? snapshot.data!.result
-                                            : 'Belum ada riwayat',
-                                        style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          height: 1.6,
-                                          color: BaseColors.blue.shade100,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
+                            return SurveyCardResult(
+                              result: snapshot.data?.result,
                             );
                           }
                         })
-                    : Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
-                        padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
-                        decoration: BoxDecoration(
-                          color: BaseColors.charcoal.shade800,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(8),
-                          ),
-                        ),
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: LineIcon(
-                              LineIcons.lock,
-                              color: BaseColors.blue,
-                              size: 30,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                const Text(
-                                  "Riwayat terkunci.",
-                                  style: TextStyle(
-                                      height: 1.6,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: BaseColors.blue),
-                                ),
-                                Text(
-                                  "Login untuk melihat riwayat hasil survey!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      height: 2,
-                                      fontSize: 15,
-                                      color: BaseColors.blue.shade100),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginPage(),
-                                    ),
-                                  );
-                                },
-                                child: const Text("Login")),
-                          )
-                        ]),
-                      ),
+                    : const SurveyCardUnauthenticated(),
                 // View Questions
                 for (int i = 0; i < questions.length; i++)
                   Container(
@@ -329,16 +178,20 @@ class _SurveyPageState extends State<SurveyPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(choices[0]['text'].toString(),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: BaseColors.charcoal.shade600,
-                                )),
-                            Text(choices[3]['text'].toString(),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: BaseColors.charcoal.shade600,
-                                )),
+                            Text(
+                              choices[0]['text'].toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: BaseColors.charcoal.shade600,
+                              ),
+                            ),
+                            Text(
+                              choices[3]['text'].toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: BaseColors.charcoal.shade600,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -386,10 +239,13 @@ class _SurveyPageState extends State<SurveyPage> {
                           },
                         );
                         await request.postJson(
-                            "https://ngetech.up.railway.app/tech-survey/post-survey-for-flutter/",
-                            convert.jsonEncode(<String, String>{
+                          EndPoints.addSurveyResult,
+                          convert.jsonEncode(
+                            <String, String>{
                               'result': result,
-                            }));
+                            },
+                          ),
+                        );
                       },
                       child: const Text('Lihat Hasil'),
                     ),
@@ -399,6 +255,197 @@ class _SurveyPageState extends State<SurveyPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SurveyCardResult extends StatelessWidget {
+  final String? result;
+  const SurveyCardResult({
+    Key? key,
+    required this.result,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 12, bottom: 6),
+      padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
+      decoration: BoxDecoration(
+        color: BaseColors.charcoal.shade800,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: LineIcon(
+            LineIcons.lockOpen,
+            color: BaseColors.blue,
+            size: 30,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Title(
+                color: BaseColors.white,
+                child: const Text(
+                  "Hasil Survey Terakhir",
+                  style: TextStyle(
+                    height: 1.8,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: BaseColors.blue,
+                  ),
+                ),
+              ),
+              Text(
+                result != '' ? result! : 'Belum ada riwayat',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  height: 1.6,
+                  color: BaseColors.blue.shade100,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+}
+
+class SurveyCardSnapshotIsWaiting extends StatelessWidget {
+  const SurveyCardSnapshotIsWaiting({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
+      padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
+      decoration: BoxDecoration(
+        color: BaseColors.charcoal.shade800,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: LineIcon(
+            LineIcons.lockOpen,
+            color: BaseColors.blue,
+            size: 30,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Title(
+                color: BaseColors.white,
+                child: const Text(
+                  "Hasil Survey Terakhir",
+                  style: TextStyle(
+                    height: 1.8,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: BaseColors.blue,
+                  ),
+                ),
+              ),
+              Text(
+                "Loading...",
+                style: TextStyle(
+                  height: 1.6,
+                  color: BaseColors.blue.shade100,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+}
+
+class SurveyCardUnauthenticated extends StatelessWidget {
+  const SurveyCardUnauthenticated({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 12.0, bottom: 6.0),
+      padding: const EdgeInsets.fromLTRB(20, 15, 20, 18),
+      decoration: BoxDecoration(
+        color: BaseColors.charcoal.shade800,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: LineIcon(
+              LineIcons.lock,
+              color: BaseColors.blue,
+              size: 30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                const Text(
+                  "Riwayat terkunci.",
+                  style: TextStyle(
+                    height: 1.6,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: BaseColors.blue,
+                  ),
+                ),
+                Text(
+                  "Login untuk melihat riwayat hasil survey!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    height: 2,
+                    fontSize: 15,
+                    color: BaseColors.blue.shade100,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                );
+              },
+              child: const Text("Login"),
+            ),
+          )
+        ],
       ),
     );
   }

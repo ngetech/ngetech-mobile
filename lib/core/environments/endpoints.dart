@@ -20,4 +20,6 @@ class EndPoints {
   static const String getPostLikesCount = '$baseUrl/post-tech/get-likes/';
   static const String addLike = '$baseUrl/post-tech/like-post/';
   static const String getTop5PostTech = '$baseUrl/top-5-post/top-post-json/';
+  static const String getSurveyResult = '$baseUrl/tech-survey/get-survey-for-flutter/';
+  static const String addSurveyResult = '$baseUrl/tech-survey/post-survey-for-flutter/';
 }
