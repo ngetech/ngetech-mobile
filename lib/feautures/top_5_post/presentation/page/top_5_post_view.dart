@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:ngetech/feautures/top_5_post/data/data_source/top5_remote_data_source.dart';
-import 'package:ngetech/feautures/top_5_post/widget/top5_appbar.dart';
-import 'package:ngetech/feautures/top_5_post/widget/top5_fill.dart';
-import 'package:ngetech/feautures/top_5_post/widget/top5_header.dart';
 import 'package:ngetech/services/cookies_request.dart';
 import 'package:provider/provider.dart';
+
+import '../widget/top5_appbar.dart';
+import '../widget/top5_fill.dart';
+import '../widget/top5_header.dart';
 
 class Top5PostPage extends StatefulWidget {
   const Top5PostPage({super.key});

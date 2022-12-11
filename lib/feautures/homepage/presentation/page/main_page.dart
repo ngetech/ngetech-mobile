@@ -7,7 +7,7 @@ import 'package:ngetech/feautures/post_tech/presentation/page/post_tech_page.dar
 import 'package:ngetech/feautures/techsurvey/presentation/page/survey_page.dart';
 import 'package:ngetech/feautures/forum/presentation/pages/forum_page.dart';
 
-import '../../../top_5_post/presentation/top_5_post_view.dart';
+import '../../../top_5_post/presentation/page/top_5_post_view.dart';
 
 class MainPage extends StatefulWidget {
   final int? setPageAtIndex;

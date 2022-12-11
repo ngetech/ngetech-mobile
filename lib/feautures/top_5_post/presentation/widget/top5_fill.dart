@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
-import 'package:ngetech/feautures/top_5_post/widget/top_5_card.dart';
+
+import 'top_5_card.dart';
 
 class Top5Data extends StatelessWidget {
   final AsyncSnapshot<List<PostTech>> snapshot;
@@ -34,9 +35,12 @@ class Top5Data extends StatelessWidget {
     } else {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
-            childCount: snapshot.data!.length < 5 ? snapshot.data!.length : 5,
-            (context, index) =>
-                Top5Card(listPost: snapshot.data!, index: index)),
+          childCount: snapshot.data!.length < 5 ? snapshot.data!.length : 5,
+          (context, index) => Top5Card(
+            listPost: snapshot.data!,
+            index: index,
+          ),
+        ),
       );
     }
   }

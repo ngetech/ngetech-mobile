@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
-import 'package:ngetech/feautures/top_5_post/widget/sliver_top5_delegate.dart';
+
+import 'sliver_top5_delegate.dart';
 
 class Top5Header extends StatelessWidget {
   const Top5Header({super.key});
