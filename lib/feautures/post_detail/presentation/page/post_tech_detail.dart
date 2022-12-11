@@ -16,7 +16,12 @@ import 'comment_view.dart';
 
 class PostTechDetail extends StatefulWidget {
   final PostTech post;
-  const PostTechDetail({super.key, required this.post});
+  final int backToMainPageWithIndex;
+  const PostTechDetail({
+    super.key,
+    required this.post,
+    required this.backToMainPageWithIndex,
+  });
 
   @override
   State<PostTechDetail> createState() => _PostTechDetailState();
@@ -44,7 +49,9 @@ class _PostTechDetailState extends State<PostTechDetail> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MainPage(setPageAtIndex: 3),
+                    builder: (context) => MainPage(
+                      setPageAtIndex: widget.backToMainPageWithIndex,
+                    ),
                   ),
                 );
               },

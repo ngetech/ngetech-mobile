@@ -30,7 +30,10 @@ class PostCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PostTechDetail(post: post),
+                builder: (context) => PostTechDetail(
+                  post: post,
+                  backToMainPageWithIndex: 3,
+                ),
               ),
             );
           },

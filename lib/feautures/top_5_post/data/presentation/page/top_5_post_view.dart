@@ -170,8 +170,10 @@ class _Top5PostPageState extends State<Top5PostPage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              PostTechDetail(post: post),
+                                          builder: (context) => PostTechDetail(
+                                            post: post,
+                                            backToMainPageWithIndex: 2,
+                                          ),
                                         ),
                                       );
                                     } else {

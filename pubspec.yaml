@@ -37,6 +37,7 @@ dependencies:
   line_icons: ^2.0.1
   provider: ^6.0.4
   shared_preferences: ^2.0.15
+  shimmer: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
