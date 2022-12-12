@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ngetech/services/cookies_request.dart';
 
 import 'app.dart';
 
-void main() {
-  runApp(const App());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CookieRequest.init();
+  runApp(App()); 
 }

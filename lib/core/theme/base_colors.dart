@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class BaseColors {
   static const Color black = Colors.black;
   static const Color white = Colors.white;
+  static const Color warning = Color(0xFFFF0033);
 
   static const int _bluePrimaryValue = 0xFF3F51B5;
   static const MaterialColor blue = MaterialColor(
@@ -21,13 +22,13 @@ class BaseColors {
     },
   );
 
-  static const int _charcoalPrimaryValue = 0xFF181A1E;
+  static const int _charcoalPrimaryValue = 0xFF0F1112;
   static const MaterialColor charcoal = MaterialColor(
     _charcoalPrimaryValue,
     <int, Color>{
       600: Color(0xFF55565C),
       700: Color(0xFF181A1E),
-      800: Color(0xFF181A1E),
+      800: Color(0xFF151718),
       900: Color(_charcoalPrimaryValue),
     },
   );
