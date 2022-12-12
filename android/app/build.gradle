@@ -54,18 +54,18 @@ android {
     }
 
     signingConfigs {
-         release {
+        release {
                  storeFile file("../../release-keystore.jks")
                  storePassword = "$System.env.KEY_PASSWORD"
                  keyAlias = "release"
                  keyPassword = "$System.env.KEY_PASSWORD"
-         }
-     }
-     buildTypes {
-         release {
-             signingConfig signingConfigs.release
-         }
-     }
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 flutter {
@@ -73,5 +73,5 @@ flutter {
 }
 
 dependencies {
-    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
