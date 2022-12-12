@@ -1,8 +1,11 @@
-gradle-wrapper.jar
+Buka file /android/.gitignore dan ubahlah file tersebut menjadi berikut. Hal ini dilakukan agar App Center dapat mendeteksi aplikasi sebagai aplikasi Android.
+
+# add comment for app center
+# gradle-wrapper.jar
+# /gradlew
+# /gradlew.bat
 /.gradle
 /captures/
-/gradlew
-/gradlew.bat
 /local.properties
 GeneratedPluginRegistrant.java
 
