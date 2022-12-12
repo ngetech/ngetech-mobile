@@ -7,7 +7,6 @@ import 'package:ngetech/core/theme/base_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../services/cookies_request.dart';
-import '../../../authentication/presentation/pages/login_page.dart';
 import '../../data/models/hasil_survey.dart';
 import '../widgets/survey_card_result.dart';
 import '../widgets/survey_card_snapshot_is_waiting.dart';

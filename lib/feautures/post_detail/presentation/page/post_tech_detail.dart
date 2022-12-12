@@ -10,7 +10,6 @@ import 'package:ngetech/feautures/post_tech/data/data_source/post_tech_remote_da
 import 'package:ngetech/feautures/post_tech/data/models/post_tech.dart';
 import 'package:provider/provider.dart';
 import '../../../../services/cookies_request.dart';
-import '../../data/data_source/comment_remote_data_source.dart';
 import 'comment_view.dart';
 
 class PostTechDetail extends StatefulWidget {
@@ -45,8 +44,6 @@ class _PostTechDetailState extends State<PostTechDetail> {
             padding: const EdgeInsets.only(right: 28),
             child: GestureDetector(
               onTap: () {
-                print('back index');
-                print(widget.backToMainPageWithIndex);
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

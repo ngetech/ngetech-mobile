@@ -29,12 +29,6 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-  static const TextStyle optionStyle = TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-    color: BaseColors.blue,
-  );
-
   final List<Widget> _widgetOptions = const <Widget>[
     HomePage(),
     SurveyPage(),

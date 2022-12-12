@@ -197,17 +197,13 @@ class _CommentPostTechState extends State<CommentPostTech> {
                       ),
                       onTap: () async {
                         if (key.currentState!.validate()) {
-                          print(widget.post.id!);
-                          print(commentText);
-                          final response = await request.postJson(
+                          await request.postJson(
                             EndPoints.addCommentPostTech,
                             convert.jsonEncode({
                               'post_id': widget.post.id!,
                               'comment': commentText
                             }),
                           );
-                          print('===============');
-                          print(response['msg']);
                           setState(() {});
                         }
                       },

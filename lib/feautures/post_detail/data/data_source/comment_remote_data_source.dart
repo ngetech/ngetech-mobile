@@ -13,7 +13,6 @@ class CommentRemoteDataSource {
     try {
       final List<PostComment> result = [];
       final response = await request.get(EndPoints.getCommentPostTech);
-      print('post id: $postId');
       for (var item in response) {
         if (item['fields']['post'] == postId) {
           result.add(PostComment.fromJson(item['fields']));

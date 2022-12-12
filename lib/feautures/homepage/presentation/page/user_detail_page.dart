@@ -81,7 +81,6 @@ class _UserDetailPageState extends State<UserDetailPage> {
               child: ElevatedButton(
                 onPressed: () async {
                   final response = await request.logout(EndPoints.logout);
-                  print(response['status']);
                   if (response['status']) {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

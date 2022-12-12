@@ -28,7 +28,6 @@ class PostTechRemoteDataSource {
     final response = await request.get(
       '${EndPoints.getPostLikesCount}$postId/',
     );
-    print(response['likes_count']);
     return response;
   }
 }
