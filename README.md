@@ -6,6 +6,9 @@
 
 # 📱NGETECH MOBILE APPLICATION 📱
 
+## 🚀 Tautan Aplikasi Mobile Ngetech  🚀
+Kunjungi aplikasi mobile kami [di sini](https://install.appcenter.ms/orgs/c12-pbp-2021-2022/apps/ngetech/distribution_groups/public)
+
 ## 👨‍💻 Kudos Developer👩‍💻
 - Wayan Angga Putra Aldita (2106650065)
 - Glan Harithteguh (2106752344)
