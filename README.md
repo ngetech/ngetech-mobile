@@ -1,3 +1,9 @@
+
+[![development](https://github.com/ngetech/ngetech-mobile/actions/workflows/development.yml/badge.svg)](https://github.com/ngetech/ngetech-mobile/actions/workflows/development.yml)
+[![pre-release](https://github.com/ngetech/ngetech-mobile/actions/workflows/pre-release.yml/badge.svg)](https://github.com/ngetech/ngetech-mobile/actions/workflows/pre-release.yml)
+[![release](https://github.com/ngetech/ngetech-mobile/actions/workflows/release.yml/badge.svg)](https://github.com/ngetech/ngetech-mobile/actions/workflows/release.yml)
+[![Build status](https://build.appcenter.ms/v0.1/apps/0ac9aca0-7b48-4495-8ce2-d3b4eec6c9ab/branches/main/badge)](https://appcenter.ms)
+
 # 📱NGETECH MOBILE APPLICATION 📱
 
 ## 👨‍💻 Kudos Developer👩‍💻
@@ -21,7 +27,7 @@ Hadirnya aplikasi NgeTech bertujuan untuk membuka mata komunitas akan tangkasnya
 - Seberapa NgeTech Anda - [Joselin](https://github.com/joselinprmt)
 - Discussion Forum - [Bona](https://github.com/bonaventuragal)
 - Latest Tech Article & User Comment based on Article - [Sulthan](https://github.com/abdillahsulthan)
-- Post Tech Information - [Angga](https://github.com/AnggaPutraa)
+- Post Tech Information & Post Likes Feature - [Angga](https://github.com/AnggaPutraa)
 
 ## 👥 Role pengguna 👥
 - 🔒 User yang Belum Login 🔒<br />

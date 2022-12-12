@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final request = context.watch<CookieRequest>();
 
-    String _greets() {
+    String greets() {
       var hour = DateTime.now().hour;
       if (hour < 12) {
         return 'Pagi';
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Selamat ${_greets()}!',
+                            'Selamat ${greets()}!',
                             style: TextStyle(
                               color: BaseColors.charcoal.shade600,
                               fontSize: 16,
