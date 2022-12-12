@@ -65,7 +65,7 @@ class _ReplyCardState extends State<ReplyCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
                   children: [
                     Text(
                       widget.reply.user == request.getCurrentUser()

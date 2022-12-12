@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:ngetech/core/environments/endpoints.dart';
 import 'package:ngetech/core/theme/base_colors.dart';
+import 'package:ngetech/feautures/authentication/presentation/pages/login_page.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_discussion.dart';
 import 'package:ngetech/feautures/forum/data/models/forum_reply.dart';
 import 'package:ngetech/feautures/forum/presentation/pages/discussion_page.dart';
@@ -167,7 +168,12 @@ class _BottomNavbarFormState extends State<BottomNavbarForm> {
                   const Text('Join the discussion!'),
                   const SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: (() {}),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    ),
                     child: const Text('Login'),
                   ),
                 ],
